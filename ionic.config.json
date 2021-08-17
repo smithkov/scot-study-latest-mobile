@@ -1,0 +1,7 @@
+{
+  "name": "scot-study",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
