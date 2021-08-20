@@ -47,11 +47,7 @@ const Course: React.FC = () => {
           <IonSearchbar placeholder="Search courses" ></IonSearchbar>
         </IonToolbar>
       <IonContent fullscreen>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle  size="large">Blank</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+       
         <IonList>
         {courses.map((item:any) => ( 
       <IonItem onClick={()=>courseDetail(item.id)}>
