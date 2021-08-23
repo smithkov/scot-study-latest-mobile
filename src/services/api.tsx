@@ -13,4 +13,83 @@ export default class ApiService {
   static countries() {
     return axios.post(`${this.endpoint}countries`);
   }
+
+  static qualificationTypes() {
+    return axios.post(`${this.endpoint}qualificationTypes`);
+  }
+
+  static findHighestQualification(data: any) {
+    return axios.post(`${this.endpoint}findHighestQualificationByUser`, data);
+  }
+  static saveHighestQualification(data: any) {
+    return axios.post(`${this.endpoint}qualification`, data);
+  }
+
+  static savePreviousQualification(data: any) {
+    return axios.post(`${this.endpoint}previousQualification`, data);
+  }
+
+  static findPreviousQualification(data: any) {
+    return axios.post(`${this.endpoint}findPreviousQualificationByUser`, data);
+  }
+
+  static findHighSchool(data: any) {
+    return axios.post(`${this.endpoint}findHighSchoolByUser`, data);
+  }
+
+  static saveHighSchool(data: any) {
+    return axios.post(`${this.endpoint}highSchool`, data);
+  }
+
+  static findEnglish(data: any) {
+    return axios.post(`${this.endpoint}findEnglishByUser`, data);
+  }
+
+  static saveEnglishTest(data: any) {
+    return axios.post(`${this.endpoint}englishTest`, data);
+  }
+
+  static findSponsorship(data: any) {
+    return axios.post(`${this.endpoint}findSponsorshipByUser`, data);
+  }
+
+  static saveSponsorship(data: any) {
+    return axios.post(`${this.endpoint}sponsorship`, data);
+  }
+
+  static findVisaHistory(data: any) {
+    return axios.post(`${this.endpoint}findVisaHistoryByUser`, data);
+  }
+
+  static saveVisaHistory(data: any) {
+    return axios.post(`${this.endpoint}visaHistory`, data);
+  }
+
+  static degreeTypes() {
+    return axios.post(`${this.endpoint}degreeTypes`);
+  }
+
+  static allCoursesSearch(data: any) {
+    return axios.post(`${this.endpoint}allCoursesSearch`, data);
+  }
+
+  static saveApplication(data: any) {
+    return axios.post(`${this.endpoint}saveApplication`, data);
+  }
+
+  static findUserById(data: any) {
+    return axios.post(`${this.endpoint}userById`, data);
+  }
+
+  static updateUserInfo(data: any, userId: any) {
+    return axios.patch(`${this.endpoint}user/${userId}`, data);
+  }
+
+  static findApplicationsByUser(data: any) {
+    return axios.post(`${this.endpoint}findApplicationsByUser`, data);
+  }
+
+  static findCourseById(id: any) {
+    return axios.get(`${this.endpoint}course/${id}`);
+  }
 }

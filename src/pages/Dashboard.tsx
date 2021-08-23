@@ -8,23 +8,80 @@ import {
   IonTabs,
   IonTabBar,
   IonTabButton,
+  IonList,
+  IonItem,
+  IonIcon,
+  IonLabel,
+  IonNote,
+  IonCheckbox,
+  IonButton,
+  IonItemDivider,
 } from "@ionic/react";
-import { checkmarkCircle } from "ionicons/icons";
+import { sadOutline, happyOutline } from "ionicons/icons";
 import "./faculty.css";
-import { useHistory } from "react-router-dom";
+import { RouteComponentProps, useHistory } from "react-router-dom";
 import AuthContext from "../my-context";
+import ApiService from "../services/api";
+import MyAlert from "../widget/myAlert";
 
-import axios from "axios";
 const endpoint = `https://scotstudy.foodengo.com/api/`;
 
-const Dashboard: React.FC = (props) => {
+interface DashboardProps
+  extends RouteComponentProps<{
+    id: any;
+  }> {}
+const Dashboard: React.FC<DashboardProps> = ({ match }) => {
+  const id = match.params.id;
   const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
+  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [applications, setApplications] = useState([]);
+  let [hasApplied, setHasApplied] = useState(false);
+  let [buttonText, setButtontext] = useState("Apply");
+  let [message, setMessage] = useState("");
+  let [showAlert, setShowAlert] = useState(false);
+  let [isHasUnApprovedApplication, setIsHasUnApprovedApplication] =
+    useState(false);
 
-  const courses = () => {
-    history.push("/");
+  useEffect(() => {
+    (async () => {
+      const findApplications = await ApiService.findApplicationsByUser({
+        userId,
+      });
+      const applicationResult = findApplications.data.data;
+      setApplications(applicationResult);
+      let isNewApplication;
+      setHasApplied(
+        (isNewApplication = applicationResult.length > 0 ? true : false)
+      );
+
+      const highestQualification = await ApiService.findHighestQualification({
+        userId,
+      });
+      const highestQualiData = highestQualification.data.data;
+      if (applicationResult.length == 0 && highestQualiData) {
+        setButtontext("Resume application");
+      } else if (applicationResult.length > 0 && highestQualiData) {
+        setButtontext("Start another application");
+      }
+    })();
+  }, [id]);
+
+  const apply = (e: any) => {
+    e.preventDefault();
+    history.push(`/highestQuali`);
+    // const findPendingApplication = applications.find(
+    //   (x: any) => x.Decision == null
+    // );
+
+    // if (findPendingApplication) {
+    //   setShowAlert(true);
+    //   setMessage("You already have got an application waiting to be approved.");
+    //   return;
+    // } else {
+    //   history.push(`/highestQuali`);
+    // }
   };
-
   return (
     <IonPage>
       <IonHeader>
@@ -32,10 +89,80 @@ const Dashboard: React.FC = (props) => {
           <IonTitle className="ion-text-center">Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
-
+      <MyAlert message={message} showAlert={showAlert} />
       <IonContent fullscreen>
-        <h1>Dashboard</h1>
-        <h2>{JSON.stringify(authValues.user)}</h2>
+        <IonList>
+          {applications.map((item: any) => {
+            const {
+              hasPaid,
+              Decision,
+              eligibilityCheck,
+              hasCAS,
+              VisaApplyStatus,
+            } = item;
+            return (
+              <>
+                <IonHeader>
+                  <h2 style={{ textAlign: "center" }}>{item.refNo}</h2>
+                </IonHeader>
+                <IonItem>
+                  <IonIcon
+                    slot="end"
+                    size="large"
+                    color="success"
+                    icon={happyOutline}
+                  ></IonIcon>
+                  <IonLabel>Form Submission</IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonIcon
+                    slot="end"
+                    size="large"
+                    color={eligibilityCheck ? "success" : "danger"}
+                    icon={eligibilityCheck ? happyOutline : sadOutline}
+                  ></IonIcon>
+
+                  <IonLabel>Has CAS?</IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonIcon
+                    slot="end"
+                    size="large"
+                    color={hasPaid ? "success" : "danger"}
+                    icon={hasPaid ? happyOutline : sadOutline}
+                  ></IonIcon>
+                  <IonLabel>Tuition Payment</IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonIcon
+                    slot="end"
+                    size="large"
+                    color={hasCAS ? "success" : "danger"}
+                    icon={hasCAS ? happyOutline : sadOutline}
+                  ></IonIcon>
+                  <IonLabel>Has CAS?</IonLabel>
+                </IonItem>
+                <IonItem>
+                  <IonNote slot="end" color="primary">
+                    <h5>{Decision ? Decision.name : "Pending"}</h5>
+                  </IonNote>
+                  <IonLabel>Decision</IonLabel>
+                </IonItem>
+                <br />
+                <br />
+              </>
+            );
+          })}
+        </IonList>
+        <IonButton
+          onClick={apply}
+          className="ion-margin"
+          type="submit"
+          shape="round"
+          expand="block"
+        >
+          {buttonText}
+        </IonButton>
       </IonContent>
     </IonPage>
   );

@@ -42,18 +42,18 @@ import AuthContext from "../my-context";
 import axios from "axios";
 const endpoint = `${Config.url}`;
 
-const HighestQuali: React.FC = (prLoadingPropsops) => {
+const PreviousQuali: React.FC = (prLoadingPropsops) => {
   const { register, logout } = React.useContext(AuthContext);
   const history = useHistory();
 
   let [selectedQualification, setSelectedQualification] = useState(null);
   let [qualification, setQualification] = useState([]);
-  let [hq_completed, setHq_completed] = useState(null);
   let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
-  let [hq_grade, setHq_grade] = useState(null);
-  let [hq_schoolName, setHq_schoolName] = useState(null);
   let [selectedProgrammeYear, setSelectedProgrammeYear] = useState(null);
-  let [programmeYear, setProgrammeYear] = useState([]);
+
+  let [pq_completed, setPq_completed] = useState("");
+  let [pq_grade, setPq_grade] = useState("");
+  let [pq_schoolName, setPq_schoolName] = useState("");
 
   const [showLoading, setShowLoading] = useState(false);
 
@@ -62,47 +62,44 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
       const qualification = await ApiService.qualificationTypes();
       setQualification(qualification.data.data);
 
-      const findHighestQuali = await ApiService.findHighestQualification({
+      const findPreviousQuali = await ApiService.findPreviousQualification({
         userId,
       });
-      const currentData = findHighestQuali.data.data;
+      const currentData = findPreviousQuali.data.data;
 
       if (currentData) {
         const {
-          hq_schoolName,
-          hq_completed,
-          hq_grade,
-          hq_programmeYear,
+          pq_schoolName,
+          pq_completed,
+          pq_grade,
+          pq_programmeYear,
           QualificationType,
         } = currentData;
-        setHq_schoolName(hq_schoolName);
-        setHq_completed(hq_completed);
-        setHq_grade(hq_grade);
-        setSelectedProgrammeYear(hq_programmeYear);
+        setPq_schoolName(pq_schoolName);
+        setPq_completed(pq_completed);
+        setPq_grade(pq_grade);
+        setSelectedProgrammeYear(pq_programmeYear);
         setSelectedQualification(QualificationType.id);
       }
     })();
   }, []);
 
-  const back = (e: any) => {
-    e.preventDefault();
-    history.goBack();
-  };
   const save = async (e: any) => {
     e.preventDefault();
     setShowLoading(true);
-    const saveResult = await ApiService.saveHighestQualification({
-      hq_programmeYear: selectedProgrammeYear,
-      hq_completed,
-      hq_grade,
-      hq_schoolName,
+    const saveResult = await ApiService.savePreviousQualification({
+      pq_programmeYear: selectedProgrammeYear,
+      pq_completed,
+      pq_grade,
+      pq_schoolName,
       qualificationTypeId: selectedQualification,
       userId,
     });
 
     const { error } = saveResult.data;
     if (error) alert("Error");
-    else history.push(`/previousQualification`);
+    else history.push(`/highSchool`);
+
     setShowLoading(false);
     // register({
     //   email,
@@ -132,10 +129,12 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonButtons onClick={back} slot="start">
+          <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle className="ion-text-center">Highest Qualification</IonTitle>
+          <IonTitle className="ion-text-center">
+            Previous Qualification
+          </IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -150,9 +149,9 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
             <IonItem>
               <IonLabel position="floating">School Name</IonLabel>
               <IonInput
-                value={hq_schoolName}
-                name="hq_schoolName"
-                onIonInput={(e: any) => setHq_schoolName(e.target.value)}
+                value={pq_schoolName}
+                name="pq_schoolName"
+                onIonInput={(e: any) => setPq_schoolName(e.target.value)}
                 required
                 type="text"
               ></IonInput>
@@ -160,9 +159,9 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
             <IonItem>
               <IonLabel position="floating">Grade</IonLabel>
               <IonInput
-                name="hq_grade"
-                value={hq_grade}
-                onIonInput={(e: any) => setHq_grade(e.target.value!)}
+                name="pq_grade"
+                value={pq_grade}
+                onIonInput={(e: any) => setPq_grade(e.target.value!)}
                 required
                 type="text"
               ></IonInput>
@@ -170,11 +169,11 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
             <IonItem>
               <IonLabel>Has Completed</IonLabel>
               <IonSelect
-                name="hq_completed"
-                value={hq_completed}
+                name="pq_completed"
+                value={pq_completed}
                 okText="Okay"
                 cancelText="Dismiss"
-                onIonChange={(e) => setHq_completed(e.detail.value)}
+                onIonChange={(e) => setPq_completed(e.detail.value)}
               >
                 <IonSelectOption key="1" value="Yes">
                   Yes
@@ -245,4 +244,4 @@ const HighestQuali: React.FC = (prLoadingPropsops) => {
   );
 };
 
-export default HighestQuali;
+export default PreviousQuali;

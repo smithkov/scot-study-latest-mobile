@@ -27,6 +27,14 @@ import CourseDetail from "./pages/CourseDetail";
 import School from "./pages/School";
 import Login from "./accounts/Login";
 import Register from "./accounts/Register";
+import HighestQuali from "./application/HighestQuali";
+import PreviousQuali from "./application/PreviousQuali";
+import HighSchool from "./application/HighSchool";
+import EnglishTest from "./application/EnglishTest";
+import Sponsorship from "./application/Sponsorship";
+import VisaHistory from "./application/VisaHistory";
+import Application from "./application/Application";
+import Profile from "./application/Profile";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -48,6 +56,8 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 
 import AuthContext from "./my-context";
+import ApplySuccess from "./application/ApplySuccess";
+import DashboardPage from "./pages/Dashboard";
 
 const App: React.FC = () => {
   const { authValues } = React.useContext(AuthContext);
@@ -55,30 +65,55 @@ const App: React.FC = () => {
     <IonApp>
       {!authValues.authenticated ? (
         <IonReactRouter>
-          <Route component={Register} exact path="/register" />
-          <Route component={Login} exact path="/login" />
+          <IonRouterOutlet>
+            <Route component={Register} exact path="/register" />
+            <Route component={Login} exact path="/login" />
 
+            {/* <Route component={HighestQuali} exact path="/highestQualification" />
           <Route
-            path="/"
-            render={() => <Redirect to="/login" />}
-            exact={true}
+            component={PreviousQuali}
+            exact
+            path="/previousQualification"
           />
+          <Route component={Profile} exact path="/profile" />
+          <Route component={HighSchool} exact path="/highSchool" />
+          <Route component={EnglishTest} exact path="/englishTest" />
+          <Route component={Sponsorship} exact path="/sponsorship" />
+          <Route component={VisaHistory} exact path="/visaHistory" />
+          <Route component={Application} exact path="/application" /> */}
+
+            <Route
+              path="/"
+              render={() => <Redirect to="/login" />}
+              exact={true}
+            />
+          </IonRouterOutlet>
         </IonReactRouter>
       ) : (
         <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
+              <Route component={FacultyCourse} path="/facultyCourse/:id" />
+              <Route component={CourseDetail} path="/courseDetail/:id" />
+              <Route component={Course} path="/courses" />
+              <Route component={School} path="/school" />
+              <Route component={Institutions} path="/institutions" />
+              <Route component={HighestQuali} path={`/highestQuali`} />
+              <Route component={HighSchool} path={`/highSchool`} />
+              <Route component={Profile} path={`/profile`} />
+
+              <Route component={EnglishTest} path={`/englishTest`} />
+              <Route component={Sponsorship} path={`/sponsorship`} />
+              <Route component={VisaHistory} path={`/visaHistory`} />
+              <Route component={Application} path={`/application`} />
+              <Route component={ApplySuccess} path="/applySuccess" />
+
               <Route
-                component={FacultyCourse}
-                exact
-                path="/facultyCourse/:id"
+                component={PreviousQuali}
+                path={`/previousQualification`}
               />
-              <Route component={CourseDetail} exact path="/courseDetail/:id" />
-              <Route component={Course} exact path="/courses" />
-              <Route component={School} exact path="/school" />
-              <Route component={Institutions} exact path="/institutions" />
-              <Route component={Dashboard} exact path="/dashboard" />
-              <Route component={Faculty} exact path="/faculty" />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route component={Faculty} path="/faculty" />
               <Route
                 path="/"
                 render={() => <Redirect to="/dashboard" />}
