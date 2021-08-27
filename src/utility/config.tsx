@@ -1,6 +1,6 @@
 export default class Config {
-  //static url = `https://scotstudy.foodengo.com/api/`;
-  static url = `http://localhost:8000/api/`;
+  static url = `https://scotstudy.foodengo.com/api/`;
+  //static url = `http://localhost:8000/api/`;
 
   static years: any = () => {
     var d = new Date();
