@@ -43,12 +43,12 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const PreviousQuali: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
 
   let [selectedQualification, setSelectedQualification] = useState(null);
   let [qualification, setQualification] = useState([]);
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [selectedProgrammeYear, setSelectedProgrammeYear] = useState(null);
 
   let [pq_completed, setPq_completed] = useState("");

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">scot-study</string>
+    <string name="title_activity_main">scot-study</string>
+    <string name="package_name">com.scotstudymobile.app</string>
+    <string name="custom_url_scheme">com.scotstudymobile.app</string>
+</resources>

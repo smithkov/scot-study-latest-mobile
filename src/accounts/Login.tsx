@@ -35,8 +35,7 @@ import { checkmarkCircle } from "ionicons/icons";
 
 import { useHistory } from "react-router-dom";
 import AuthContext from "../my-context";
-
-import axios from "axios";
+import Toast from "../widget/toast";
 const endpoint = `${Config.url}`;
 
 const Login: React.FC = (prLoadingPropsops) => {
@@ -46,6 +45,7 @@ const Login: React.FC = (prLoadingPropsops) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [showLoading, setShowLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -64,6 +64,7 @@ const Login: React.FC = (prLoadingPropsops) => {
   const doLogin = async (e: any) => {
     e.preventDefault();
     setShowLoading(true);
+
     login({
       user: email,
       password: password,
@@ -73,6 +74,7 @@ const Login: React.FC = (prLoadingPropsops) => {
       })
       .catch((error: any) => {
         setShowLoading(false);
+        setShowToast(true);
       });
     // if (result) history.replace(`/dashboard`);
   };
@@ -85,6 +87,10 @@ const Login: React.FC = (prLoadingPropsops) => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
+        <Toast
+          message={`Username or password is incorrect`}
+          showToast={showToast}
+        />
         <br />
         <br />
         <br />

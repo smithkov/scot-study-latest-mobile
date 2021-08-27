@@ -43,7 +43,7 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const EnglishTest: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
   const typeArray = [
     { key: 1, text: "NONE", value: "NONE" },
@@ -51,7 +51,7 @@ const EnglishTest: React.FC = (prLoadingPropsops) => {
     { key: 2, text: "IELTS", value: "IELTS" },
   ];
 
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [selectedName, setSelectedName] = useState("");
   let [score, setScore] = useState("");
 

@@ -43,13 +43,13 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const HighestQuali: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
 
   let [selectedQualification, setSelectedQualification] = useState(null);
   let [qualification, setQualification] = useState([]);
   let [hq_completed, setHq_completed] = useState(null);
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [hq_grade, setHq_grade] = useState(null);
   let [hq_schoolName, setHq_schoolName] = useState(null);
   let [selectedProgrammeYear, setSelectedProgrammeYear] = useState(null);

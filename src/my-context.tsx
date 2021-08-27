@@ -21,6 +21,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     return new Promise((resolve, reject) => {
       if (!error) {
         const { data, token } = api.data;
+
         setAuthValues({
           authenticated: true,
           user: {
@@ -28,6 +29,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             id: data.id,
             token: token,
             firstname: data.firstname,
+            isUser: data.Role?.name == "User" ? true : false,
           },
         });
         resolve(true);

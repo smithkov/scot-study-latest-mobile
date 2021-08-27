@@ -69,6 +69,10 @@ export default class ApiService {
     return axios.post(`${this.endpoint}degreeTypes`);
   }
 
+  static facultiesLight() {
+    return axios.post(`${this.endpoint}facultiesLight`);
+  }
+
   static allCoursesSearch(data: any) {
     return axios.post(`${this.endpoint}allCoursesSearch`, data);
   }
@@ -91,5 +95,21 @@ export default class ApiService {
 
   static findCourseById(id: any) {
     return axios.get(`${this.endpoint}course/${id}`);
+  }
+
+  static institutions() {
+    return axios.post(`${this.endpoint}institutions`);
+  }
+
+  static courseByParams(data: any) {
+    return axios.post(`${this.endpoint}courseByParams`, data);
+  }
+
+  static findUserPayments(data: any) {
+    return axios.post(`${this.endpoint}findUserPayments`, data);
+  }
+
+  static compare(data: any) {
+    return axios.post(`${this.endpoint}compareForMobile`, data);
   }
 }

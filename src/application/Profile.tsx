@@ -3,6 +3,7 @@ import {
   IonBackButton,
   IonButtons,
   IonLoading,
+  IonMenuButton,
   IonSelect,
   IonSelectOption,
   useIonLoading,
@@ -43,7 +44,7 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const Profile: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
   const [contactEmail, setContactEmail] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -58,7 +59,7 @@ const Profile: React.FC = (prLoadingPropsops) => {
   const [homeAddress, setHomeAddress] = useState(null);
   const [postalAddress, setPostalAddress] = useState(null);
   const [showLoading, setShowLoading] = useState(false);
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
 
   const genderArray = [
     { key: 1, text: "Male", value: "Male" },
@@ -127,6 +128,9 @@ const Profile: React.FC = (prLoadingPropsops) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>

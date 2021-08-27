@@ -45,10 +45,10 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const VisaHistory: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
 
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [selectedHasApplied, setSelectedHasApplied] = useState("");
   let [purpose, setPurpose] = useState("");
   let [reason, setReason] = useState("");

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Storage } from "@capacitor/storage";
+import AuthContext from "../my-context";
 import {
   IonContent,
   IonHeader,
@@ -40,7 +41,7 @@ interface CourseDetailProps
   }> {}
 const CourseDetail: React.FC<CourseDetailProps> = ({ match }) => {
   const id = match.params.id;
-
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
   const [course, setCourse] = useState({
     id: "",
@@ -90,12 +91,14 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ match }) => {
             <IonCardTitle>{course.name}</IonCardTitle>
             <p>{course.Faculty.name}</p>
           </IonCardHeader>
+
           <IonCardContent>
             <IonButton
               type="button"
               shape="round"
               onClick={apply}
               expand="block"
+              disabled={!authValues.user.isUser}
             >
               Apply
             </IonButton>

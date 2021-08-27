@@ -8,6 +8,8 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
+  IonSplitPane,
+  IonPage,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import {
@@ -17,6 +19,8 @@ import {
   schoolOutline,
   laptopOutline,
   storefrontOutline,
+  logOutOutline,
+  swapHorizontalOutline,
 } from "ionicons/icons";
 import Course from "./pages/Courses";
 import Institutions from "./pages/Institutions";
@@ -35,6 +39,8 @@ import Sponsorship from "./application/Sponsorship";
 import VisaHistory from "./application/VisaHistory";
 import Application from "./application/Application";
 import Profile from "./application/Profile";
+import Compare from "./pages/Compare";
+import Menu from "./widget/menu";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -51,14 +57,51 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
-
+import {
+  home,
+  cardOutline,
+  personCircleOutline,
+  laptopSharp,
+} from "ionicons/icons";
 /* Theme variables */
 import "./theme/variables.css";
-
+import PaymentList from "./pages/PaymentList";
 import AuthContext from "./my-context";
 import ApplySuccess from "./application/ApplySuccess";
 import DashboardPage from "./pages/Dashboard";
+import { AppPage } from "./declarations";
 
+const appPages: AppPage[] = [
+  {
+    title: "Dashboard",
+    url: "/dashboard",
+    icon: laptopSharp,
+  },
+
+  {
+    title: "Faculties",
+    url: "/faculty",
+    icon: square,
+  },
+
+  {
+    title: "My Account",
+    url: "/profile",
+    icon: personCircleOutline,
+  },
+
+  {
+    title: "Payments",
+    url: "/payments",
+    icon: cardOutline,
+  },
+
+  {
+    title: "Logout",
+    url: "/login",
+    icon: logOutOutline,
+  },
+];
 const App: React.FC = () => {
   const { authValues } = React.useContext(AuthContext);
   return (
@@ -93,27 +136,42 @@ const App: React.FC = () => {
         <IonReactRouter>
           <IonTabs>
             <IonRouterOutlet>
-              <Route component={FacultyCourse} path="/facultyCourse/:id" />
-              <Route component={CourseDetail} path="/courseDetail/:id" />
+              <IonSplitPane contentId="main">
+                <Menu appPages={appPages} />
+                <IonPage id="main">
+                  <IonRouterOutlet>
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route component={Profile} path={`/profile`} />
+                    <Route component={PaymentList} path={`/payments`} />
+                    <Route component={Faculty} path="/faculty" />
+                    <Route
+                      component={FacultyCourse}
+                      path="/facultyCourse/:id"
+                    />
+                    <Route component={CourseDetail} path="/courseDetail/:id" />
+                  </IonRouterOutlet>
+                </IonPage>
+              </IonSplitPane>
+
               <Route component={Course} path="/courses" />
+              <Route component={Compare} path="/compare" />
               <Route component={School} path="/school" />
               <Route component={Institutions} path="/institutions" />
               <Route component={HighestQuali} path={`/highestQuali`} />
               <Route component={HighSchool} path={`/highSchool`} />
-              <Route component={Profile} path={`/profile`} />
 
               <Route component={EnglishTest} path={`/englishTest`} />
               <Route component={Sponsorship} path={`/sponsorship`} />
               <Route component={VisaHistory} path={`/visaHistory`} />
               <Route component={Application} path={`/application`} />
               <Route component={ApplySuccess} path="/applySuccess" />
+              <Route component={Compare} path="/compare" />
 
               <Route
                 component={PreviousQuali}
                 path={`/previousQualification`}
               />
-              <Route path="/dashboard" component={Dashboard} />
-              <Route component={Faculty} path="/faculty" />
+
               <Route
                 path="/"
                 render={() => <Redirect to="/dashboard" />}
@@ -129,13 +187,17 @@ const App: React.FC = () => {
                 <IonIcon icon={storefrontOutline} />
                 <IonLabel>Institutions</IonLabel>
               </IonTabButton>
-              <IonTabButton tab="tab3" href="/faculty">
+              {/* <IonTabButton tab="tab3" href="/faculty">
                 <IonIcon icon={square} />
                 <IonLabel>Faculties</IonLabel>
-              </IonTabButton>
+              </IonTabButton> */}
               <IonTabButton tab="tab4" href="/courses">
                 <IonIcon icon={schoolOutline} />
                 <IonLabel>Courses</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="tab5" href="/compare">
+                <IonIcon icon={swapHorizontalOutline} />
+                <IonLabel>Compare</IonLabel>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>

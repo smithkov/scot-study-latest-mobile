@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import {
   IonContent,
   IonHeader,
@@ -16,6 +17,11 @@ import {
   IonCheckbox,
   IonButton,
   IonItemDivider,
+  IonButtons,
+  IonMenuButton,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
 } from "@ionic/react";
 import { sadOutline, happyOutline } from "ionicons/icons";
 import "./faculty.css";
@@ -31,10 +37,11 @@ interface DashboardProps
     id: any;
   }> {}
 const Dashboard: React.FC<DashboardProps> = ({ match }) => {
-  const id = match.params.id;
   const { authValues } = React.useContext(AuthContext);
+  const id = match.params.id;
+
   const history = useHistory();
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [applications, setApplications] = useState([]);
   let [hasApplied, setHasApplied] = useState(false);
   let [buttonText, setButtontext] = useState("Apply");
@@ -86,6 +93,9 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
+          <IonButtons slot="start">
+            <IonMenuButton />
+          </IonButtons>
           <IonTitle className="ion-text-center">Dashboard</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -154,15 +164,26 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
             );
           })}
         </IonList>
-        <IonButton
-          onClick={apply}
-          className="ion-margin"
-          type="submit"
-          shape="round"
-          expand="block"
-        >
-          {buttonText}
-        </IonButton>
+        {!authValues.user.isUser && (
+          <IonCard>
+            <IonCardHeader style={{ textAlign: "center" }}>
+              <IonCardTitle>
+                Admin operations are only active on the web application
+              </IonCardTitle>
+            </IonCardHeader>
+          </IonCard>
+        )}
+        {authValues.user.isUser && (
+          <IonButton
+            onClick={apply}
+            className="ion-margin"
+            type="submit"
+            shape="round"
+            expand="block"
+          >
+            {buttonText}
+          </IonButton>
+        )}
       </IonContent>
     </IonPage>
   );

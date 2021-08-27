@@ -43,7 +43,7 @@ import axios from "axios";
 const endpoint = `${Config.url}`;
 
 const Sponsorship: React.FC = (prLoadingPropsops) => {
-  const { register, logout } = React.useContext(AuthContext);
+  const { authValues } = React.useContext(AuthContext);
   const history = useHistory();
 
   const sponsorType = [
@@ -61,7 +61,7 @@ const Sponsorship: React.FC = (prLoadingPropsops) => {
     { key: 2, text: "Scholarship", value: "Scholarship" },
   ];
 
-  let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
+  let [userId, setUserId] = useState(authValues.user.id);
   let [selectedSponsor, setSelectedSponsor] = useState("");
   let [name, setName] = useState("");
   let [occupation, setOccupation] = useState("");
