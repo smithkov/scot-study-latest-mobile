@@ -23,9 +23,11 @@ import { checkmarkCircle } from "ionicons/icons";
 
 import axios from "axios";
 import ApiService from "../services/api";
+import { useHistory } from "react-router";
 const endpoint = `https://scotstudy.foodengo.com/api/`;
 
 const Institutions: React.FC = () => {
+  const history = useHistory();
   const [institutions, setInstitutions] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
   useEffect(() => {
@@ -38,6 +40,9 @@ const Institutions: React.FC = () => {
 
     //};
   }, []);
+  const institutionDetail = (id: any) => {
+    history.push(`/institution/${id}`);
+  };
   return (
     <IonPage>
       <IonLoading
@@ -54,7 +59,7 @@ const Institutions: React.FC = () => {
 
       <IonContent fullscreen>
         {institutions.map((item: any) => (
-          <IonCard>
+          <IonCard onClick={()=>institutionDetail(item.id)}>
             <IonImg src={`${item.banner}`} />
             <IonCardHeader>
               <IonCardSubtitle>{item.City?.name}</IonCardSubtitle>

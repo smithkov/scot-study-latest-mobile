@@ -101,6 +101,11 @@ export default class ApiService {
     return axios.post(`${this.endpoint}institutions`);
   }
 
+  static findInstitutionById(data:any) {
+    return axios.post(`${this.endpoint}findInstitutionById`, data);
+  }
+  
+
   static courseByParams(data: any) {
     return axios.post(`${this.endpoint}courseByParams`, data);
   }

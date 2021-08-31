@@ -70,6 +70,7 @@ import AuthContext from "./my-context";
 import ApplySuccess from "./application/ApplySuccess";
 import DashboardPage from "./pages/Dashboard";
 import { AppPage } from "./declarations";
+import Institution from "./pages/Institution";
 
 const appPages: AppPage[] = [
   {
@@ -111,20 +112,6 @@ const App: React.FC = () => {
           <IonRouterOutlet>
             <Route component={Register} exact path="/register" />
             <Route component={Login} exact path="/login" />
-
-            {/* <Route component={HighestQuali} exact path="/highestQualification" />
-          <Route
-            component={PreviousQuali}
-            exact
-            path="/previousQualification"
-          />
-          <Route component={Profile} exact path="/profile" />
-          <Route component={HighSchool} exact path="/highSchool" />
-          <Route component={EnglishTest} exact path="/englishTest" />
-          <Route component={Sponsorship} exact path="/sponsorship" />
-          <Route component={VisaHistory} exact path="/visaHistory" />
-          <Route component={Application} exact path="/application" /> */}
-
             <Route
               path="/"
               render={() => <Redirect to="/login" />}
@@ -149,6 +136,7 @@ const App: React.FC = () => {
                       path="/facultyCourse/:id"
                     />
                     <Route component={CourseDetail} path="/courseDetail/:id" />
+                    <Route component={Institution} path="/institution/:id" />
                   </IonRouterOutlet>
                 </IonPage>
               </IonSplitPane>
@@ -159,7 +147,6 @@ const App: React.FC = () => {
               <Route component={Institutions} path="/institutions" />
               <Route component={HighestQuali} path={`/highestQuali`} />
               <Route component={HighSchool} path={`/highSchool`} />
-
               <Route component={EnglishTest} path={`/englishTest`} />
               <Route component={Sponsorship} path={`/sponsorship`} />
               <Route component={VisaHistory} path={`/visaHistory`} />

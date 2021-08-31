@@ -1,13 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ApiService from "./services/api";
+import { Storage } from '@capacitor/storage';
 
 const Context = React.createContext<any>(undefined);
+const userKey = "user";
 export const AuthProvider: React.FC = ({ children }) => {
   const [authValues, setAuthValues] = React.useState<any>({
     authenticated: false,
     user: {},
   });
+  useEffect(() => {
+    (async () => {
+      const { value } = await Storage.get({ key: userKey });
+      const user = JSON.parse(value!);
+      console.log(user)
+      if (user) {
+        setAuthValues({
+          authenticated: true,
+          user: {
+            email: user?.email,
+            id: user?.id,
+            //token: token,
+            firstname: user?.firstname,
+            isUser: user?.Role?.name == "User" ? true : false,
+          },
+        });
+      }
 
+    })();
+  }, []);
   const login = async ({
     user,
     password,
@@ -21,6 +42,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     return new Promise((resolve, reject) => {
       if (!error) {
         const { data, token } = api.data;
+        (async () => {
+          await Storage.set({
+            key: userKey,
+            value: JSON.stringify(data),
+          });
+          await Storage.set({
+            key: 'isAuthenticated',
+            value: "true",
+          });
+        })();
 
         setAuthValues({
           authenticated: true,
@@ -88,6 +119,17 @@ export const AuthProvider: React.FC = ({ children }) => {
     return new Promise((resolve, reject) => {
       if (!error) {
         const { data, token } = api.data;
+        (async () => {
+          await Storage.set({
+            key: userKey,
+            value: JSON.stringify(data),
+          });
+          await Storage.set({
+            key: 'isAuthenticated',
+            value: "true",
+          });
+        })();
+
         setAuthValues({
           authenticated: true,
           user: {
@@ -103,7 +145,8 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
     });
   };
-  const logout = () => {
+  const logout = async() => {
+    await Storage.remove({ key: userKey });
     setAuthValues({
       authenticated: false,
       user: {},
