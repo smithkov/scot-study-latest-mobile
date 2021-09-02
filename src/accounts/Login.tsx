@@ -110,12 +110,12 @@ const Login: React.FC = (prLoadingPropsops) => {
         <form onSubmit={doLogin}>
           <IonList>
             <IonItem>
-              <IonLabel position="floating">Email</IonLabel>
+              <IonLabel position="floating">Email/Username</IonLabel>
               <IonInput
                 name="email"
                 onIonInput={handleOnChange}
                 required
-                type="email"
+                type="text"
               ></IonInput>
             </IonItem>
             <IonItem>

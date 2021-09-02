@@ -87,7 +87,9 @@ const Register: React.FC = (prLoadingPropsops) => {
       setPassword(value);
     }
   };
-
+  const gotoLogin = () => {
+    history.replace(`/login`);
+  };
   const doRegister = async (e: any) => {
     e.preventDefault();
 
@@ -173,7 +175,6 @@ const Register: React.FC = (prLoadingPropsops) => {
               <IonInput
                 name="middlename"
                 onIonInput={(e: any) => setMiddlename(e.target.value!)}
-                required
                 type="text"
               ></IonInput>
             </IonItem>
@@ -192,7 +193,7 @@ const Register: React.FC = (prLoadingPropsops) => {
                 name="phone"
                 onIonInput={(e: any) => setPhone(e.target.value!)}
                 required
-                type="text"
+                type="tel"
               ></IonInput>
             </IonItem>
             <IonItem>
@@ -285,7 +286,7 @@ const Register: React.FC = (prLoadingPropsops) => {
             message={"Please wait..."}
           />
           <p style={{ textAlign: "center" }}>Already have an account?</p>
-          <IonButton
+          <IonButton onClick={gotoLogin}
             className="ion-margin"
             type="button"
             color="danger"
