@@ -28,6 +28,7 @@ import {
   IonCard,
   IonCardHeader,
   IonCardTitle,
+  IonBackButton,
 } from "@ionic/react";
 import { checkmarkCircle, filterOutline, search } from "ionicons/icons";
 import ApiService from "../services/api";
@@ -66,6 +67,9 @@ const PaymentList: React.FC = () => {
     //};
   }, []);
 
+  const pay = () => {
+    window.location.href = "https://dev.scotstudy.co.uk/payment";
+  };
   return (
     <IonPage>
       <IonLoading
@@ -76,6 +80,9 @@ const PaymentList: React.FC = () => {
       />
       <IonHeader>
         <IonToolbar color="primary">
+          <IonButtons slot="start">
+            <IonBackButton />
+          </IonButtons>
           <IonTitle className="ion-text-center">Payments</IonTitle>
         </IonToolbar>
       </IonHeader>
@@ -84,11 +91,12 @@ const PaymentList: React.FC = () => {
         <br />
         <br />
         <IonButton
+          onClick={pay}
           className="ion-margin"
           type="submit"
           shape="round"
           expand="block"
-          color="success"
+          color="primary"
         >
           Make Payment
         </IonButton>

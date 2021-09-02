@@ -116,7 +116,7 @@ const Profile: React.FC = (prLoadingPropsops) => {
       userId
     )
       .then((result: any) => {
-        history.replace(`/dashboard`);
+        history.replace(Config.dashRoute());
       })
       .catch((error: any) => {
         setShowLoading(false);

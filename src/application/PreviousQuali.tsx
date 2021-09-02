@@ -83,7 +83,9 @@ const PreviousQuali: React.FC = (prLoadingPropsops) => {
       }
     })();
   }, []);
-
+  const skip = () => {
+    history.push(`/highSchool`);
+  };
   const save = async (e: any) => {
     e.preventDefault();
     setShowLoading(true);
@@ -231,6 +233,17 @@ const PreviousQuali: React.FC = (prLoadingPropsops) => {
             expand="block"
           >
             Save & Next
+          </IonButton>
+
+          <IonButton
+            onClick={skip}
+            color="success"
+            className="ion-margin"
+            type="button"
+            shape="round"
+            expand="block"
+          >
+            Skip
           </IonButton>
           <IonLoading
             cssClass="my-custom-class"

@@ -12,7 +12,12 @@ export default class Config {
 
     return dates;
   };
+
+  static dashRoute = () => {
+    return `/dashboard/${Math.random() * 10}`;
+  };
 }
+
 export enum LoadStatus {
   Loading,
   Empty,

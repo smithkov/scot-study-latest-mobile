@@ -30,17 +30,16 @@ import { useHistory } from "react-router-dom";
 import { Storage } from "@capacitor/storage";
 import Config from "../utility/config";
 
-const ApplySuccess: React.FC = (prLoadingPropsops) => {
+const ForgotSuccess: React.FC = (prLoadingPropsops) => {
   const history = useHistory();
   const next = async (e: any) => {
-    await Storage.remove({ key: "courseId" });
-    history.push(Config.dashRoute());
+    history.replace("/login");
   };
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle className="ion-text-center">Success</IonTitle>
+          <IonTitle className="ion-text-center"></IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
@@ -53,7 +52,7 @@ const ApplySuccess: React.FC = (prLoadingPropsops) => {
           <IonRow>
             <IonCol></IonCol>
             <IonCol>
-              <IonIcon
+              {/* <IonIcon
                 style={{
                   width: "100%",
                   display: "flex",
@@ -63,7 +62,7 @@ const ApplySuccess: React.FC = (prLoadingPropsops) => {
                 color="success"
                 size="large"
                 icon={checkmarkCircle}
-              />
+              /> */}
             </IonCol>
             <IonCol></IonCol>
           </IonRow>
@@ -71,7 +70,9 @@ const ApplySuccess: React.FC = (prLoadingPropsops) => {
 
         <IonCard>
           <IonCardHeader style={{ textAlign: "center" }}>
-            <IonCardTitle>Application submission was successful</IonCardTitle>
+            <IonCardTitle>
+              An e-mail has been sent to you with further instructions
+            </IonCardTitle>
           </IonCardHeader>
         </IonCard>
         <IonItemDivider />
@@ -83,7 +84,7 @@ const ApplySuccess: React.FC = (prLoadingPropsops) => {
           expand="block"
           type="button"
         >
-          Back To Dashboard
+          Login
         </IonButton>
 
         <br />
@@ -93,4 +94,4 @@ const ApplySuccess: React.FC = (prLoadingPropsops) => {
   );
 };
 
-export default ApplySuccess;
+export default ForgotSuccess;

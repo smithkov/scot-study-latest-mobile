@@ -41,6 +41,9 @@ import Application from "./application/Application";
 import Profile from "./application/Profile";
 import Compare from "./pages/Compare";
 import Menu from "./widget/menu";
+import Config from "./utility/config";
+import ForgotSuccess from "./accounts/ForgotSuccess";
+import Forgot from "./accounts/Forgot";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -75,7 +78,7 @@ import Institution from "./pages/Institution";
 const appPages: AppPage[] = [
   {
     title: "Dashboard",
-    url: "/dashboard",
+    url: Config.dashRoute(),
     icon: laptopSharp,
   },
 
@@ -103,6 +106,7 @@ const appPages: AppPage[] = [
     icon: logOutOutline,
   },
 ];
+
 const App: React.FC = () => {
   const { authValues } = React.useContext(AuthContext);
   return (
@@ -112,6 +116,8 @@ const App: React.FC = () => {
           <IonRouterOutlet>
             <Route component={Register} exact path="/register" />
             <Route component={Login} exact path="/login" />
+            <Route component={Forgot} exact path="/forgot" />
+            <Route component={ForgotSuccess} exact path="/forgotSuccess" />
             <Route
               path="/"
               render={() => <Redirect to="/login" />}
@@ -127,7 +133,7 @@ const App: React.FC = () => {
                 <Menu appPages={appPages} />
                 <IonPage id="main">
                   <IonRouterOutlet>
-                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/dashboard/:id" component={Dashboard} />
                     <Route component={Profile} path={`/profile`} />
                     <Route component={PaymentList} path={`/payments`} />
                     <Route component={Faculty} path="/faculty" />
@@ -161,12 +167,12 @@ const App: React.FC = () => {
 
               <Route
                 path="/"
-                render={() => <Redirect to="/dashboard" />}
+                render={() => <Redirect to={Config.dashRoute()} />}
                 exact={true}
               />
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
-              <IonTabButton tab="tab1" href="/dashboard">
+              <IonTabButton tab="tab1" href={Config.dashRoute()}>
                 <IonIcon icon={laptopOutline} />
                 <IonLabel>Dashboard</IonLabel>
               </IonTabButton>

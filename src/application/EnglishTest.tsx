@@ -70,7 +70,9 @@ const EnglishTest: React.FC = (prLoadingPropsops) => {
       }
     })();
   }, []);
-
+  const skip = () => {
+    history.push(`/visaHistory`);
+  };
   const save = async (e: any) => {
     e.preventDefault();
     setShowLoading(true);
@@ -146,6 +148,17 @@ const EnglishTest: React.FC = (prLoadingPropsops) => {
             expand="block"
           >
             Save & Next
+          </IonButton>
+
+          <IonButton
+            onClick={skip}
+            color="success"
+            className="ion-margin"
+            type="button"
+            shape="round"
+            expand="block"
+          >
+            Skip
           </IonButton>
           <IonLoading
             cssClass="my-custom-class"

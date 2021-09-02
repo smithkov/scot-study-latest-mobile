@@ -36,9 +36,11 @@ import { checkmarkCircle } from "ionicons/icons";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../my-context";
 import Toast from "../widget/toast";
+import MyAlert from "../widget/myAlert";
+import ApiService from "../services/api";
 const endpoint = `${Config.url}`;
 
-const Login: React.FC = (prLoadingPropsops) => {
+const Forgot: React.FC = (prLoadingPropsops) => {
   const { login, logout } = React.useContext(AuthContext);
   const history = useHistory();
 
@@ -47,48 +49,34 @@ const Login: React.FC = (prLoadingPropsops) => {
   const [showLoading, setShowLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const handleOnChange = (e: any) => {
-    const name = e.target.name;
     const value = e.target.value;
-
-    if (name == "email") {
-      setEmail(value);
-    } else if (name == "password") {
-      setPassword(value);
-    }
+    setEmail(value);
   };
 
-  const gotoRegister = () => {
-    history.replace(`/register`);
-  };
-
-  const doLogin = async (e: any) => {
+  const handleForgotPassword = async (e: any) => {
     e.preventDefault();
-    setShowLoading(true);
+    const response = await ApiService.forgotPassword({ email });
 
-    login({
-      user: email,
-      password: password,
-    })
-      .then((result: any) => {
-        history.replace(Config.dashRoute());
-      })
-      .catch((error: any) => {
-        setShowLoading(false);
-        setShowToast(true);
-      });
-    // if (result) history.replace(`/dashboard`);
+    const { error } = response.data;
+    setShowLoading(true);
+    if (error) {
+      setShowToast(true);
+    } else {
+      history.replace(`/forgotSuccess`);
+    }
+    setShowLoading(false);
   };
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle className="ion-text-center">Login</IonTitle>
+          <IonTitle className="ion-text-center">Reset Password</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
         <Toast
-          message={`Username or password is incorrect`}
+          message={`It seems like your email does not exist!`}
           showToast={showToast}
         />
         <br />
@@ -96,21 +84,11 @@ const Login: React.FC = (prLoadingPropsops) => {
         <br />
         <br />
         <br />
-        <IonGrid>
-          <IonRow>
-            <IonCol></IonCol>
-            <IonCol>
-              <IonImg
-                src={`https://dev.scotstudy.co.uk/assets/images/logoMain.png`}
-              />
-            </IonCol>
-            <IonCol></IonCol>
-          </IonRow>
-        </IonGrid>
-        <form onSubmit={doLogin}>
+
+        <form onSubmit={handleForgotPassword}>
           <IonList>
             <IonItem>
-              <IonLabel position="floating">Email/Username</IonLabel>
+              <IonLabel position="floating">Email</IonLabel>
               <IonInput
                 name="email"
                 onIonInput={handleOnChange}
@@ -118,19 +96,8 @@ const Login: React.FC = (prLoadingPropsops) => {
                 type="text"
               ></IonInput>
             </IonItem>
-            <IonItem>
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput
-                name="password"
-                onIonInput={handleOnChange}
-                required
-                type="password"
-              ></IonInput>
-            </IonItem>
           </IonList>
-          <div className="ion-text-end ion-margin">
-            <a href="/forgot">Forgot Password</a>
-          </div>
+
           <br />
 
           <IonButton
@@ -139,7 +106,7 @@ const Login: React.FC = (prLoadingPropsops) => {
             shape="round"
             expand="block"
           >
-            Login
+            Reset
           </IonButton>
           <IonLoading
             cssClass="my-custom-class"
@@ -147,21 +114,10 @@ const Login: React.FC = (prLoadingPropsops) => {
             onDidDismiss={() => setShowLoading(false)}
             message={"Please wait..."}
           />
-          <p style={{ textAlign: "center" }}>Don't have an account?</p>
-          <IonButton
-            onClick={gotoRegister}
-            className="ion-margin"
-            type="button"
-            color="danger"
-            shape="round"
-            expand="block"
-          >
-            Register
-          </IonButton>
         </form>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Login;
+export default Forgot;

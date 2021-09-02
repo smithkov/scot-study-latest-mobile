@@ -26,7 +26,7 @@ const Menu: React.FunctionComponent<MenuProps> = ({ appPages }) => {
     if (url == "/login") {
       logout();
     }
-    history.replace(url);
+    history.push(url);
   };
   return (
     <IonMenu contentId="main">

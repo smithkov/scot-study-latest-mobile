@@ -110,7 +110,7 @@ const Register: React.FC = (prLoadingPropsops) => {
       countryId: selectedCountry,
     })
       .then((result: any) => {
-        history.replace(`/dashboard`);
+        history.replace(Config.dashRoute());
       })
       .catch((error: any) => {
         setShowLoading(false);
@@ -286,7 +286,8 @@ const Register: React.FC = (prLoadingPropsops) => {
             message={"Please wait..."}
           />
           <p style={{ textAlign: "center" }}>Already have an account?</p>
-          <IonButton onClick={gotoLogin}
+          <IonButton
+            onClick={gotoLogin}
             className="ion-margin"
             type="button"
             color="danger"
