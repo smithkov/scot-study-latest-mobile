@@ -29,6 +29,7 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonBackButton,
+  IonAlert,
 } from "@ionic/react";
 import { checkmarkCircle, filterOutline, search } from "ionicons/icons";
 import ApiService from "../services/api";
@@ -43,6 +44,7 @@ const PaymentList: React.FC = () => {
   const [payments, setPayments] = useState([]);
   const [loadType, setLoadType] = useState(LoadStatus.Loading);
   const [showLoading, setShowLoading] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   let [userId, setUserId] = useState("e2352890-171d-4d14-95f9-80879b3c8f99");
 
@@ -68,10 +70,33 @@ const PaymentList: React.FC = () => {
   }, []);
 
   const pay = () => {
-    window.location.href = "https://dev.scotstudy.co.uk/payment";
+    setShowAlert(true);
   };
   return (
     <IonPage>
+      <IonAlert
+        isOpen={showAlert}
+        onDidDismiss={() => setShowAlert(false)}
+        cssClass="my-custom-class"
+        header={"Payment Notice"}
+        message={
+          "<strong>You will be redirected to Scot-Study web application to continue with payment</strong>"
+        }
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+            cssClass: "secondary",
+            handler: (blah) => {},
+          },
+          {
+            text: "Continue",
+            handler: () => {
+              window.location.href = "https://scotstudy.co.uk/payment";
+            },
+          },
+        ]}
+      />
       <IonLoading
         cssClass="my-custom-class"
         isOpen={showLoading}
@@ -112,7 +137,9 @@ const PaymentList: React.FC = () => {
             </IonItem>
           ))}
 
-          {loadType == LoadStatus.Empty && <NoResult />}
+          {loadType == LoadStatus.Empty && (
+            <NoResult message="No payments has been made yet." />
+          )}
         </IonList>
       </IonContent>
     </IonPage>

@@ -256,7 +256,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
               </IonLabel>
             </IonItem>
           ))}
-          {loadType == LoadStatus.Empty && <NoResult />}
+          {loadType == LoadStatus.Empty && <NoResult message="" />}
           <IonInfiniteScroll
             threshold="100px"
             disabled={disableInfiniteScroll}

@@ -63,10 +63,10 @@ const VisaHistory: React.FC = (prLoadingPropsops) => {
 
   useEffect(() => {
     (async () => {
-      const findSponsorship = await ApiService.findVisaHistory({
+      const findVisaHistory = await ApiService.findVisaHistory({
         userId,
       });
-      const currentData = findSponsorship.data.data;
+      const currentData = findVisaHistory.data.data;
 
       if (currentData) {
         setSelectedHasApplied(currentData.hasApplied);
@@ -134,7 +134,7 @@ const VisaHistory: React.FC = (prLoadingPropsops) => {
           <MyAlert message={message} showAlert={showError} />
           <IonList>
             <IonItem>
-              <IonLabel>Has Applied for a UK Visa before ?</IonLabel>
+              <IonLabel>Has Applied For A UK Visa Before ?</IonLabel>
               <IonSelect
                 name="selectedHasApplied"
                 value={selectedHasApplied}

@@ -299,7 +299,7 @@ const Course: React.FC = () => {
           >
             <IonInfiniteScrollContent loadingText="Loading more data"></IonInfiniteScrollContent>
           </IonInfiniteScroll>
-          {loadType == LoadStatus.Empty && <NoResult />}
+          {loadType == LoadStatus.Empty && <NoResult message="" />}
         </IonList>
       </IonContent>
     </IonPage>

@@ -1,22 +1,25 @@
 import React, { useEffect } from "react";
 import ApiService from "./services/api";
-import { Storage } from '@capacitor/storage';
+import { Storage } from "@capacitor/storage";
 
 const Context = React.createContext<any>(undefined);
 const userKey = "user";
 export const AuthProvider: React.FC = ({ children }) => {
   const [authValues, setAuthValues] = React.useState<any>({
     authenticated: false,
+    hasLoadedOnce: false,
     user: {},
   });
   useEffect(() => {
     (async () => {
       const { value } = await Storage.get({ key: userKey });
       const user = JSON.parse(value!);
-      console.log(user)
+      const loadedOnce = await Storage.get({ key: "loaded" });
+
       if (user) {
         setAuthValues({
           authenticated: true,
+          hasLoadedOnce: JSON.stringify(loadedOnce.value),
           user: {
             email: user?.email,
             id: user?.id,
@@ -25,8 +28,11 @@ export const AuthProvider: React.FC = ({ children }) => {
             isUser: user?.Role?.name == "User" ? true : false,
           },
         });
+      } else {
+        setAuthValues({
+          hasLoadedOnce: JSON.stringify(loadedOnce.value),
+        });
       }
-
     })();
   }, []);
   const login = async ({
@@ -48,7 +54,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             value: JSON.stringify(data),
           });
           await Storage.set({
-            key: 'isAuthenticated',
+            key: "isAuthenticated",
             value: "true",
           });
         })();
@@ -69,7 +75,21 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
     });
   };
+  const setTourPage = async () => {
+    return new Promise((resolve, reject) => {
+      (async () => {
+        await Storage.set({
+          key: "loaded",
+          value: JSON.stringify(true),
+        });
+      })();
 
+      setAuthValues({
+        hasLoadedOnce: true,
+      });
+      resolve(true);
+    });
+  };
   const register = async ({
     email,
     password,
@@ -125,7 +145,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             value: JSON.stringify(data),
           });
           await Storage.set({
-            key: 'isAuthenticated',
+            key: "isAuthenticated",
             value: "true",
           });
         })();
@@ -145,7 +165,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
     });
   };
-  const logout = async() => {
+  const logout = async () => {
     await Storage.remove({ key: userKey });
     setAuthValues({
       authenticated: false,
@@ -159,6 +179,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     login,
     logout,
     register,
+    setTourPage,
   };
 
   return <Context.Provider value={state}>{children}</Context.Provider>;

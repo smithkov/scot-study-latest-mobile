@@ -120,4 +120,8 @@ export default class ApiService {
   static forgotPassword(data: any) {
     return axios.post(`${this.endpoint}forgotPassword`, data);
   }
+
+  static findApplicationById(data: any) {
+    return axios.post(`${this.endpoint}findApplicationById`, data);
+  }
 }

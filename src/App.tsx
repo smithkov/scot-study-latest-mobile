@@ -1,4 +1,15 @@
 import React from "react";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faCheckSquare,
+  faSchool,
+  faTachometerAlt,
+  faGraduationCap,
+  faBalanceScale,
+  faDesktop,
+} from "@fortawesome/free-solid-svg-icons";
+
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
@@ -44,6 +55,9 @@ import Menu from "./widget/menu";
 import Config from "./utility/config";
 import ForgotSuccess from "./accounts/ForgotSuccess";
 import Forgot from "./accounts/Forgot";
+import ApplicationView from "./application/ApplicationView";
+import Checklist from "./pages/Checklist";
+import Tour from "./accounts/Tour";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -65,6 +79,9 @@ import {
   cardOutline,
   personCircleOutline,
   laptopSharp,
+  chatbubblesOutline,
+  readerOutline,
+  checkboxOutline,
 } from "ionicons/icons";
 /* Theme variables */
 import "./theme/variables.css";
@@ -74,18 +91,19 @@ import ApplySuccess from "./application/ApplySuccess";
 import DashboardPage from "./pages/Dashboard";
 import { AppPage } from "./declarations";
 import Institution from "./pages/Institution";
-
+library.add(
+  faCheckSquare,
+  faSchool,
+  faTachometerAlt,
+  faGraduationCap,
+  faBalanceScale,
+  faDesktop
+);
 const appPages: AppPage[] = [
   {
     title: "Dashboard",
     url: Config.dashRoute(),
     icon: laptopSharp,
-  },
-
-  {
-    title: "Faculties",
-    url: "/faculty",
-    icon: square,
   },
 
   {
@@ -98,6 +116,21 @@ const appPages: AppPage[] = [
     title: "Payments",
     url: "/payments",
     icon: cardOutline,
+  },
+  {
+    title: "Checklist",
+    url: "/checklist",
+    icon: checkboxOutline,
+  },
+  {
+    title: "About Us",
+    url: "/about",
+    icon: readerOutline,
+  },
+  {
+    title: "Chat Us",
+    url: "/chat",
+    icon: chatbubblesOutline,
   },
 
   {
@@ -115,12 +148,18 @@ const App: React.FC = () => {
         <IonReactRouter>
           <IonRouterOutlet>
             <Route component={Register} exact path="/register" />
+
             <Route component={Login} exact path="/login" />
+            <Route component={Tour} exact path="/tour" />
             <Route component={Forgot} exact path="/forgot" />
             <Route component={ForgotSuccess} exact path="/forgotSuccess" />
             <Route
               path="/"
-              render={() => <Redirect to="/login" />}
+              render={() => (
+                <Redirect
+                  to={authValues.hasLoadedOnce == "true" ? "/login" : "/tour"}
+                />
+              )}
               exact={true}
             />
           </IonRouterOutlet>
@@ -137,11 +176,16 @@ const App: React.FC = () => {
                     <Route component={Profile} path={`/profile`} />
                     <Route component={PaymentList} path={`/payments`} />
                     <Route component={Faculty} path="/faculty" />
+
                     <Route
                       component={FacultyCourse}
                       path="/facultyCourse/:id"
                     />
                     <Route component={CourseDetail} path="/courseDetail/:id" />
+                    <Route
+                      component={ApplicationView}
+                      path="/applicationView/:id"
+                    />
                     <Route component={Institution} path="/institution/:id" />
                   </IonRouterOutlet>
                 </IonPage>
@@ -149,6 +193,7 @@ const App: React.FC = () => {
 
               <Route component={Course} path="/courses" />
               <Route component={Compare} path="/compare" />
+              <Route component={Checklist} path="/checklist" />
               <Route component={School} path="/school" />
               <Route component={Institutions} path="/institutions" />
               <Route component={HighestQuali} path={`/highestQuali`} />
@@ -173,11 +218,11 @@ const App: React.FC = () => {
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="tab1" href={Config.dashRoute()}>
-                <IonIcon icon={laptopOutline} />
+                <FontAwesomeIcon color="blue" size="2x" icon="desktop" />
                 <IonLabel>Dashboard</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab2" href="/institutions">
-                <IonIcon icon={storefrontOutline} />
+                <FontAwesomeIcon color="blue" size="2x" icon="school" />
                 <IonLabel>Institutions</IonLabel>
               </IonTabButton>
               {/* <IonTabButton tab="tab3" href="/faculty">
@@ -185,11 +230,11 @@ const App: React.FC = () => {
                 <IonLabel>Faculties</IonLabel>
               </IonTabButton> */}
               <IonTabButton tab="tab4" href="/courses">
-                <IonIcon icon={schoolOutline} />
+                <FontAwesomeIcon color="blue" size="2x" icon="graduation-cap" />
                 <IonLabel>Courses</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab5" href="/compare">
-                <IonIcon icon={swapHorizontalOutline} />
+                <FontAwesomeIcon color="blue" size="2x" icon="balance-scale" />
                 <IonLabel>Compare</IonLabel>
               </IonTabButton>
             </IonTabBar>

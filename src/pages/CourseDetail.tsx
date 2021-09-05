@@ -87,6 +87,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ match }) => {
         <IonCard>
           <IonImg src={course.CoursePhoto?.url} />
           <IonCardHeader>
+            <p>{course.Institution?.name}</p>
             <IonCardSubtitle>{course.fee}</IonCardSubtitle>
             <IonCardTitle>{course.name}</IonCardTitle>
             <p>{course.Faculty.name}</p>
@@ -104,7 +105,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ match }) => {
             </IonButton>
           </IonCardContent>
         </IonCard>
-        <IonGrid>
+        {/* <IonGrid>
           <IonRow>
             <IonCol className="ion-text-center">
               {" "}
@@ -113,7 +114,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ match }) => {
               </IonChip>
             </IonCol>
           </IonRow>
-        </IonGrid>
+        </IonGrid> */}
         <IonList>
           {course.City && (
             <IonItem>

@@ -26,6 +26,14 @@ const Menu: React.FunctionComponent<MenuProps> = ({ appPages }) => {
     if (url == "/login") {
       logout();
     }
+    if (url == "/about") {
+      window.location.href = "https://scotstudy.co.uk/about";
+      return;
+    }
+    if (url == "/chat") {
+      window.location.href = "https://wa.me/2348026668008";
+      return;
+    }
     history.push(url);
   };
   return (

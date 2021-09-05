@@ -39,7 +39,7 @@ import Toast from "../widget/toast";
 const endpoint = `${Config.url}`;
 
 const Login: React.FC = (prLoadingPropsops) => {
-  const { login, logout } = React.useContext(AuthContext);
+  const { login } = React.useContext(AuthContext);
   const history = useHistory();
 
   const [email, setEmail] = useState(null);
@@ -91,17 +91,15 @@ const Login: React.FC = (prLoadingPropsops) => {
           message={`Username or password is incorrect`}
           showToast={showToast}
         />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+
+       
         <IonGrid>
           <IonRow>
             <IonCol></IonCol>
             <IonCol>
               <IonImg
-                src={`https://dev.scotstudy.co.uk/assets/images/logoMain.png`}
+                style={{ height: 200, width: 200 }}
+                src={`/assets/logo.jpg`}
               />
             </IonCol>
             <IonCol></IonCol>
@@ -110,7 +108,7 @@ const Login: React.FC = (prLoadingPropsops) => {
         <form onSubmit={doLogin}>
           <IonList>
             <IonItem>
-              <IonLabel position="floating">Email/Username</IonLabel>
+              <IonLabel position="floating">Email or username</IonLabel>
               <IonInput
                 name="email"
                 onIonInput={handleOnChange}

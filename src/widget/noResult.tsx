@@ -1,11 +1,13 @@
 import React from "react";
 import { IonAlert, IonCard, IonCardHeader, IonCardTitle } from "@ionic/react";
 
-const NoResult: React.FC = () => {
+const NoResult: React.FC<{
+  message: string;
+}> = (props) => {
   return (
     <IonCard>
       <IonCardHeader style={{ textAlign: "center" }}>
-        <IonCardTitle>No Result Found</IonCardTitle>
+        <IonCardTitle> {props.message || "No Result Found"} </IonCardTitle>
       </IonCardHeader>
     </IonCard>
   );

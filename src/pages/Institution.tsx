@@ -78,7 +78,7 @@ const Institution: React.FC<CourseDetailProps> = ({ match }) => {
           <IonButtons slot="start">
             <IonBackButton />
           </IonButtons>
-          <IonTitle className="ion-text-center">Course Detail</IonTitle>
+          <IonTitle className="ion-text-center">{institution?.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
 
