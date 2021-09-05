@@ -98,7 +98,7 @@ export default class ApiService {
   }
 
   static institutions() {
-    return axios.post(`${this.endpoint}institutions`);
+    return axios.post(`${this.endpoint}institutionsLighter`);
   }
 
   static findInstitutionById(data: any) {
