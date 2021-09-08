@@ -213,7 +213,13 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
                       icon={eligibilityCheck ? happyOutline : sadOutline}
                     ></IonIcon>
 
-                    <IonLabel>Has CAS?</IonLabel>
+                    <IonLabel>Eligibily Check</IonLabel>
+                  </IonItem>
+                  <IonItem>
+                    <IonNote slot="end" color="primary">
+                      <h5>{Decision ? Decision.name : "Pending"}</h5>
+                    </IonNote>
+                    <IonLabel>Decision</IonLabel>
                   </IonItem>
                   <IonItem>
                     <IonIcon
@@ -224,13 +230,32 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
                     ></IonIcon>
                     <IonLabel>Tuition Payment</IonLabel>
                   </IonItem>
-
                   <IonItem>
                     <IonNote slot="end" color="primary">
-                      <h5>{Decision ? Decision.name : "Pending"}</h5>
+                      <h5>
+                        {hasCAS ? (
+                          <IonIcon
+                            slot="end"
+                            size="large"
+                            color={"success"}
+                            icon={happyOutline}
+                          ></IonIcon>
+                        ) : (
+                          "Pending"
+                        )}
+                      </h5>
                     </IonNote>
-                    <IonLabel>Decision</IonLabel>
+                    <IonLabel>Has CAS?</IonLabel>
                   </IonItem>
+                  <IonItem>
+                    <IonNote slot="end" color="primary">
+                      <h5>
+                        {VisaApplyStatus ? VisaApplyStatus.name : "Pending"}
+                      </h5>
+                    </IonNote>
+                    <IonLabel>Visa Application</IonLabel>
+                  </IonItem>
+
                   <IonItem>
                     <IonNote slot="end" color="primary">
                       <h4>

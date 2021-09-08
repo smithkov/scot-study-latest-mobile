@@ -45,7 +45,7 @@ const endpoint = `https://scotstudy.foodengo.com/api/`;
 
 const Compare: React.FC = () => {
   const initialOffset = 0;
-  const initialLimit = 15;
+  const initialLimit = 6;
   const [disableInfiniteScroll, setDisableInfiniteScroll] =
     useState<boolean>(false);
   const history = useHistory();
@@ -63,34 +63,37 @@ const Compare: React.FC = () => {
   const [loadType, setLoadType] = useState(LoadStatus.Loading);
   const [offset, setOffset] = useState(initialOffset);
 
-  useIonViewWillEnter(async () => {
-    const result = await ApiService.compare({
-      institutionId1: selectedInstitution1,
-      institutionId2: selectedInstitution2,
-      facultyId: selectedFaculty,
-      offset: offset,
-      limit: initialLimit,
-      degreeTypeId: selectedDegreeType,
-      search: searchText,
-    });
-    let dataResult = result.data.data;
-    setCourses(dataResult);
-    if (dataResult.length > 0) {
-      setLoadType(LoadStatus.Loaded);
-    } else {
-      setLoadType(LoadStatus.Empty);
-    }
-    setShowLoading(false);
+  useEffect(() => {
+    (async () => {
+      const result = await ApiService.compare({
+        institutionId1: selectedInstitution1,
+        institutionId2: selectedInstitution2,
+        facultyId: selectedFaculty,
+        offset: offset,
+        limit: initialLimit,
+        degreeTypeId: selectedDegreeType,
+        search: searchText,
+      });
 
-    const institutionResult = await ApiService.institutions();
-    setInstitutions(institutionResult.data.data);
+      let dataResult = result.data.data;
+      setCourses(dataResult);
+      if (dataResult.length > 0) {
+        setLoadType(LoadStatus.Loaded);
+      } else {
+        setLoadType(LoadStatus.Empty);
+      }
+      setShowLoading(false);
 
-    const degreeTyeResult = await ApiService.degreeTypes();
-    setDegreeTypes(degreeTyeResult.data.data);
+      const institutionResult = await ApiService.institutions();
+      setInstitutions(institutionResult.data.data);
 
-    const facultyResult = await ApiService.facultiesLight();
-    setFaculties(facultyResult.data.data);
-  });
+      const degreeTyeResult = await ApiService.degreeTypes();
+      setDegreeTypes(degreeTyeResult.data.data);
+
+      const facultyResult = await ApiService.facultiesLight();
+      setFaculties(facultyResult.data.data);
+    })();
+  }, []);
 
   async function searchNext($event: CustomEvent<void>) {
     let newOffset = offset + initialOffset;
@@ -212,7 +215,7 @@ const Compare: React.FC = () => {
           <IonTitle className="ion-text-center">Compare</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonToolbar>
+      <IonToolbar style={{ padding: 5 }}>
         <IonSearchbar
           onIonInput={(e: any) => handleSearch(e)}
           placeholder="Search courses"

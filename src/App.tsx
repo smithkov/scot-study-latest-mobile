@@ -58,6 +58,7 @@ import Forgot from "./accounts/Forgot";
 import ApplicationView from "./application/ApplicationView";
 import Checklist from "./pages/Checklist";
 import Tour from "./accounts/Tour";
+import UploadDoc from "./pages/Upload";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -203,6 +204,7 @@ const App: React.FC = () => {
               <Route component={VisaHistory} path={`/visaHistory`} />
               <Route component={Application} path={`/application`} />
               <Route component={ApplySuccess} path="/applySuccess" />
+              <Route component={UploadDoc} path="/upload" />
               <Route component={Compare} path="/compare" />
 
               <Route

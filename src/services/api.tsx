@@ -124,4 +124,12 @@ export default class ApiService {
   static findApplicationById(data: any) {
     return axios.post(`${this.endpoint}findApplicationById`, data);
   }
+
+  static uploadDocument(data: any) {
+    return axios.post(`${this.endpoint}uploadDocument`, data);
+  }
+
+  static findUserDocuments(data: any) {
+    return axios.post(`${this.endpoint}findUserDocuments`, data);
+  }
 }

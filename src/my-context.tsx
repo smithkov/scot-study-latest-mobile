@@ -157,6 +157,7 @@ export const AuthProvider: React.FC = ({ children }) => {
             id: data.id,
             token: token,
             firstname: data.firstname,
+            isUser: true,
           },
         });
         resolve(true);

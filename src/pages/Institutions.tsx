@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {IonInfiniteScroll, IonInfiniteScrollContent} from '@ionic/react';
-
+import { IonInfiniteScroll, IonInfiniteScrollContent } from "@ionic/react";
+import { Storage } from "@capacitor/storage";
 import {
   IonContent,
   IonHeader,
@@ -33,9 +33,22 @@ const Institutions: React.FC = () => {
   useEffect(() => {
     //return () => {
     (async () => {
-      const result = await ApiService.institutions();
-      setInstitutions(result.data.data);
-      setShowLoading(false);
+      const { value } = await Storage.get({ key: "institution" });
+      const cachedData = JSON.parse(value!);
+      if (!cachedData) {
+        const result = await ApiService.institutions();
+        const data = result.data.data;
+        console.log(data);
+        setInstitutions(data);
+        setShowLoading(false);
+        await Storage.set({
+          key: "institution",
+          value: JSON.stringify(data),
+        });
+      } else {
+        setInstitutions(cachedData);
+        setShowLoading(false);
+      }
     })();
 
     //};
@@ -59,7 +72,7 @@ const Institutions: React.FC = () => {
 
       <IonContent fullscreen>
         {institutions.map((item: any) => (
-          <IonCard onClick={()=>institutionDetail(item.id)}>
+          <IonCard onClick={() => institutionDetail(item.id)}>
             <IonImg src={`${item.banner}`} />
             <IonCardHeader>
               <IonCardSubtitle>{item.City?.name}</IonCardSubtitle>
