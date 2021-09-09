@@ -84,7 +84,7 @@ const EnglishTest: React.FC = (prLoadingPropsops) => {
 
     const { error } = saveResult.data;
     if (error) alert("Error");
-    else history.push(`/visaHistory`);
+    else history.push(`/sponsorship`);
 
     setShowLoading(false);
   };

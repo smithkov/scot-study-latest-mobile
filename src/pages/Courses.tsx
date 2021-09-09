@@ -43,7 +43,7 @@ import { off } from "process";
 const endpoint = `https://scotstudy.foodengo.com/api/`;
 
 const Course: React.FC = () => {
-  const initialOffset = 15;
+  const initialOffset = 6;
   const [disableInfiniteScroll, setDisableInfiniteScroll] =
     useState<boolean>(false);
   const history = useHistory();
@@ -59,33 +59,38 @@ const Course: React.FC = () => {
   const [institutions, setInstitutions] = useState([]);
   const [degreeTypes, setDegreeTypes] = useState([]);
   const [faculties, setFaculties] = useState([]);
+  let hasLoaded = false;
 
   useIonViewWillEnter(async () => {
-    const result = await ApiService.allCoursesSearch({
-      institutionId: selectedInstitution,
-      facultyId: selectedFaculty,
-      offset: offset,
-      limit: initialOffset,
-      degreeTypeId: selectedDegreeType,
-      search: searchText,
-    });
-    let dataResult = result.data.data;
-    setCourses(dataResult);
-    if (dataResult.length > 0) {
-      setLoadType(LoadStatus.Loaded);
-    } else {
-      setLoadType(LoadStatus.Empty);
+    if (!hasLoaded) {
+      hasLoaded = true;
+      const result = await ApiService.allCoursesSearch({
+        institutionId: selectedInstitution,
+        facultyId: selectedFaculty,
+        offset: offset,
+        limit: initialOffset,
+        degreeTypeId: selectedDegreeType,
+        search: searchText,
+      });
+
+      let dataResult = result.data.data;
+      setCourses(dataResult);
+      if (dataResult.length > 0) {
+        setLoadType(LoadStatus.Loaded);
+      } else {
+        setLoadType(LoadStatus.Empty);
+      }
+      setShowLoading(false);
+
+      const institutionResult = await ApiService.institutions();
+      setInstitutions(institutionResult.data.data);
+
+      const degreeTyeResult = await ApiService.degreeTypes();
+      setDegreeTypes(degreeTyeResult.data.data);
+
+      const facultyResult = await ApiService.facultiesLight();
+      setFaculties(facultyResult.data.data);
     }
-    setShowLoading(false);
-
-    const institutionResult = await ApiService.institutions();
-    setInstitutions(institutionResult.data.data);
-
-    const degreeTyeResult = await ApiService.degreeTypes();
-    setDegreeTypes(degreeTyeResult.data.data);
-
-    const facultyResult = await ApiService.facultiesLight();
-    setFaculties(facultyResult.data.data);
   });
 
   async function searchNext($event: CustomEvent<void>) {
@@ -255,7 +260,7 @@ const Course: React.FC = () => {
           <IonTitle className="ion-text-center">Courses</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonToolbar>
+      <IonToolbar style={{ padding: 5 }}>
         <IonSearchbar
           onIonInput={(e: any) => handleSearch(e)}
           placeholder="Search courses"

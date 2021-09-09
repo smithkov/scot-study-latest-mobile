@@ -98,7 +98,7 @@ const Sponsorship: React.FC = (prLoadingPropsops) => {
 
     const { error } = saveResult.data;
     if (error) alert("Error");
-    else history.push(`/application`);
+    else history.push(`/visaHistory`);
 
     setShowLoading(false);
   };

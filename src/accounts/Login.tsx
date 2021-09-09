@@ -6,6 +6,10 @@ import {
   useIonLoading,
 } from "@ionic/react";
 import { Storage } from "@capacitor/storage";
+import {
+  ThemeDetection,
+  ThemeDetectionResponse,
+} from "@ionic-native/theme-detection";
 import Config from "../utility/config";
 import {
   IonContent,
@@ -46,6 +50,16 @@ const Login: React.FC = (prLoadingPropsops) => {
   const [password, setPassword] = useState(null);
   const [showLoading, setShowLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [logo, setLogo] = useState("/assets/light_logo.png");
+  useEffect(() => {
+    ThemeDetection.isDarkModeEnabled().then((res: any) => {
+      if (res.value) {
+        setLogo("/assets/dark_logo.png");
+      } else {
+        setLogo("/assets/light_logo.png");
+      }
+    });
+  });
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -83,24 +97,27 @@ const Login: React.FC = (prLoadingPropsops) => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle className="ion-text-center">Login</IonTitle>
+          <IonTitle className="ion-text-center"></IonTitle>
         </IonToolbar>
       </IonHeader>
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <IonContent fullscreen>
         <Toast
           message={`Username or password is incorrect`}
           showToast={showToast}
         />
 
-       
         <IonGrid>
           <IonRow>
             <IonCol></IonCol>
+
             <IonCol>
-              <IonImg
-                style={{ height: 200, width: 200 }}
-                src={`/assets/logo.jpg`}
-              />
+              <IonImg style={{ height: 65, width: 200 }} src={logo} />
             </IonCol>
             <IonCol></IonCol>
           </IonRow>

@@ -31,7 +31,7 @@ const Menu: React.FunctionComponent<MenuProps> = ({ appPages }) => {
       return;
     }
     if (url == "/chat") {
-      window.location.href = "https://wa.me/2348026668008";
+      window.location.href = "https://wa.me/447586770652";
       return;
     }
     history.push(url);
