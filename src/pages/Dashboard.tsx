@@ -29,6 +29,7 @@ import {
   IonCol,
   IonThumbnail,
   IonImg,
+  IonLoading,
 } from "@ionic/react";
 import { sadOutline, happyOutline } from "ionicons/icons";
 import "./faculty.css";
@@ -54,6 +55,7 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
   let [buttonText, setButtontext] = useState("Apply");
   let [message, setMessage] = useState("");
   let [showAlert, setShowAlert] = useState(false);
+  let [showLoading, setShowLoading] = useState(true);
   const imgStyle = {
     height: "40px",
     width: "40px",
@@ -84,6 +86,7 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
       } else if (applicationResult.length > 0 && highestQualiData) {
         setButtontext("Start another application");
       }
+      setShowLoading(false);
     })();
   }, [id]);
 
@@ -99,6 +102,12 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
   };
   return (
     <IonPage>
+      <IonLoading
+        cssClass="my-custom-class"
+        isOpen={showLoading}
+        onDidDismiss={() => setShowLoading(false)}
+        message={"Please wait..."}
+      />
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">

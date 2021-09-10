@@ -10,6 +10,7 @@ import {
   ThemeDetection,
   ThemeDetectionResponse,
 } from "@ionic-native/theme-detection";
+import { Redirect } from "react-router-dom";
 import Config from "../utility/config";
 import {
   IonContent,
@@ -43,23 +44,30 @@ import Toast from "../widget/toast";
 const endpoint = `${Config.url}`;
 
 const Login: React.FC = (prLoadingPropsops) => {
-  const { login } = React.useContext(AuthContext);
+  const { login, authValues } = React.useContext(AuthContext);
   const history = useHistory();
-
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [showLoading, setShowLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [hasLogin, setHasLogin] = useState(false);
   const [logo, setLogo] = useState("/assets/light_logo.png");
   useEffect(() => {
-    ThemeDetection.isDarkModeEnabled().then((res: any) => {
-      if (res.value) {
-        setLogo("/assets/dark_logo.png");
-      } else {
-        setLogo("/assets/light_logo.png");
+    //alert(JSON.stringify(authValues.authenticated));
+    (async () => {
+      const { value } = await Storage.get({ key: "isAuthenticated" });
+      if (value == "true") {
+        setHasLogin(true);
       }
-    });
-  });
+    })();
+    // ThemeDetection.isDarkModeEnabled().then((res: any) => {
+    //   if (res.value) {
+    //     setLogo("/assets/dark_logo.png");
+    //   } else {
+    //     setLogo("/assets/light_logo.png");
+    //   }
+    // });
+  }, []);
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -92,7 +100,9 @@ const Login: React.FC = (prLoadingPropsops) => {
       });
     // if (result) history.replace(`/dashboard`);
   };
-
+  if (hasLogin) {
+    return <Redirect to={"/dashboard/9"} />;
+  }
   return (
     <IonPage>
       <IonHeader>
