@@ -66,7 +66,9 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
     useState(false);
 
   useEffect(() => {
+   
     (async () => {
+      
       const findApplications = await ApiService.findApplicationsByUser({
         userId,
       });

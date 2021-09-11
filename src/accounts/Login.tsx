@@ -51,15 +51,20 @@ const Login: React.FC = (prLoadingPropsops) => {
   const [showLoading, setShowLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hasLogin, setHasLogin] = useState(false);
-  const [logo, setLogo] = useState("/assets/light_logo.png");
+  
+  let hasLoaded = false
   useEffect(() => {
     //alert(JSON.stringify(authValues.authenticated));
-    (async () => {
-      const { value } = await Storage.get({ key: "isAuthenticated" });
-      if (value == "true") {
-        setHasLogin(true);
-      }
-    })();
+    // if (!hasLoaded) {
+    //   hasLoaded =true;
+    //   (async () => {
+    //     const { value } = await Storage.get({ key: "isAuthenticated" });
+    //     if (value == "true") {
+
+    //       setHasLogin(true);
+    //     }
+    //   })();
+    // }
     // ThemeDetection.isDarkModeEnabled().then((res: any) => {
     //   if (res.value) {
     //     setLogo("/assets/dark_logo.png");
@@ -67,7 +72,7 @@ const Login: React.FC = (prLoadingPropsops) => {
     //     setLogo("/assets/light_logo.png");
     //   }
     // });
-  }, []);
+  }, [1]);
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -92,7 +97,7 @@ const Login: React.FC = (prLoadingPropsops) => {
       password: password,
     })
       .then((result: any) => {
-        history.replace(Config.dashRoute());
+        history.replace("/dashboard/1");
       })
       .catch((error: any) => {
         setShowLoading(false);
@@ -100,93 +105,93 @@ const Login: React.FC = (prLoadingPropsops) => {
       });
     // if (result) history.replace(`/dashboard`);
   };
-  if (hasLogin) {
-    return <Redirect to={"/dashboard/9"} />;
-  }
-  return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar color="primary">
-          <IonTitle className="ion-text-center"></IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <IonContent fullscreen>
-        <Toast
-          message={`Username or password is incorrect`}
-          showToast={showToast}
-        />
-
-        <IonGrid>
-          <IonRow>
-            <IonCol></IonCol>
-
-            <IonCol>
-              <IonImg style={{ height: 65, width: 200 }} src={logo} />
-            </IonCol>
-            <IonCol></IonCol>
-          </IonRow>
-        </IonGrid>
-        <form onSubmit={doLogin}>
-          <IonList>
-            <IonItem>
-              <IonLabel position="floating">Email or username</IonLabel>
-              <IonInput
-                name="email"
-                onIonInput={handleOnChange}
-                required
-                type="text"
-              ></IonInput>
-            </IonItem>
-            <IonItem>
-              <IonLabel position="floating">Password</IonLabel>
-              <IonInput
-                name="password"
-                onIonInput={handleOnChange}
-                required
-                type="password"
-              ></IonInput>
-            </IonItem>
-          </IonList>
-          <div className="ion-text-end ion-margin">
-            <a href="/forgot">Forgot Password</a>
-          </div>
-          <br />
-
-          <IonButton
-            className="ion-margin"
-            type="submit"
-            shape="round"
-            expand="block"
-          >
-            Login
-          </IonButton>
-          <IonLoading
-            cssClass="my-custom-class"
-            isOpen={showLoading}
-            onDidDismiss={() => setShowLoading(false)}
-            message={"Please wait..."}
+ 
+    return (
+      <IonPage>
+        <IonHeader>
+          <IonToolbar color="primary">
+            <IonTitle className="ion-text-center"></IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <IonContent fullscreen>
+          <Toast
+            message={`Username or password is incorrect`}
+            showToast={showToast}
           />
-          <p style={{ textAlign: "center" }}>Don't have an account?</p>
-          <IonButton
-            onClick={gotoRegister}
-            className="ion-margin"
-            type="button"
-            color="danger"
-            shape="round"
-            expand="block"
-          >
-            Register
-          </IonButton>
-        </form>
-      </IonContent>
-    </IonPage>
-  );
+
+          <IonGrid>
+            <IonRow>
+              <IonCol></IonCol>
+
+              <IonCol>
+                <IonImg style={{ height: 65, width: 200 }} src="/assets/light_logo.png" />
+              </IonCol>
+              <IonCol></IonCol>
+            </IonRow>
+          </IonGrid>
+          <form onSubmit={doLogin}>
+            <IonList>
+              <IonItem>
+                <IonLabel position="floating">Email or username</IonLabel>
+                <IonInput
+                  name="email"
+                  onIonInput={handleOnChange}
+                  required
+                  type="text"
+                ></IonInput>
+              </IonItem>
+              <IonItem>
+                <IonLabel position="floating">Password</IonLabel>
+                <IonInput
+                  name="password"
+                  onIonInput={handleOnChange}
+                  required
+                  type="password"
+                ></IonInput>
+              </IonItem>
+            </IonList>
+            <div className="ion-text-end ion-margin">
+              <a href="/forgot">Forgot Password</a>
+            </div>
+            <br />
+
+            <IonButton
+              className="ion-margin"
+              type="submit"
+              shape="round"
+              expand="block"
+            >
+              Login
+            </IonButton>
+            <IonLoading
+              cssClass="my-custom-class"
+              isOpen={showLoading}
+              onDidDismiss={() => setShowLoading(false)}
+              message={"Please wait..."}
+            />
+            <p style={{ textAlign: "center" }}>Don't have an account?</p>
+            <IonButton
+              onClick={gotoRegister}
+              className="ion-margin"
+              type="button"
+              color="danger"
+              shape="round"
+              expand="block"
+            >
+              Register
+            </IonButton>
+          </form>
+        </IonContent>
+      </IonPage>
+    );
+  
+
 };
 
 export default Login;
