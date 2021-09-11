@@ -66,7 +66,7 @@ const Login: React.FC = (prLoadingPropsops) => {
     //   } else {
     //     setLogo("/assets/light_logo.png");
     //   }
-    // });
+    //. });
   }, []);
   const handleOnChange = (e: any) => {
     const name = e.target.name;
