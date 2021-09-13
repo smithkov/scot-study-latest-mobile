@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadStatus } from "../utility/config";
+import { Storage } from "@capacitor/storage";
 import {
   IonSearchbar,
   IonContent,
@@ -62,16 +63,29 @@ const Compare: React.FC = () => {
   const [showLoading, setShowLoading] = useState(true);
   const [loadType, setLoadType] = useState(LoadStatus.Loading);
   const [offset, setOffset] = useState(initialOffset);
+  const school1 = "school1";
+  const school2 = "school2";
+  const faculty = "faculty";
+  const degree = "degree";
 
   useEffect(() => {
     (async () => {
+      const getSchool1 = await Storage.get({ key: school1 });
+      setSelectedInstitution1(getSchool1.value! || "");
+
+      const getSchool2 = await Storage.get({ key: school2 });
+      setSelectedInstitution2(getSchool2.value! || "");
+      const getFaculty = await Storage.get({ key: faculty });
+      setSelectedFaculty(getFaculty.value! || "");
+      const getDegree = await Storage.get({ key: degree });
+      setSelectedDegreeType(getDegree.value! || "");
       const result = await ApiService.compare({
-        institutionId1: selectedInstitution1,
-        institutionId2: selectedInstitution2,
-        facultyId: selectedFaculty,
+        institutionId1: getSchool1.value! || "",
+        institutionId2: getSchool2.value! || "",
+        facultyId: getFaculty.value! || "",
         offset: offset,
         limit: initialLimit,
-        degreeTypeId: selectedDegreeType,
+        degreeTypeId: getDegree.value! || "",
         search: searchText,
       });
 
@@ -122,12 +136,14 @@ const Compare: React.FC = () => {
 
   const handleSearch = async (e: any) => {
     const value = e.target.value;
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSearchText(value);
     const result = await ApiService.compare({
       institutionId1: selectedInstitution1,
       institutionId2: selectedInstitution2,
       facultyId: selectedFaculty,
-      offset: offset,
+      offset: newOffset,
       limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: value,
@@ -159,7 +175,22 @@ const Compare: React.FC = () => {
 
   const applyFilter = async () => {
     setOffset(initialOffset);
-
+    await Storage.set({
+      key: school1,
+      value: selectedInstitution1,
+    });
+    await Storage.set({
+      key: school2,
+      value: selectedInstitution2,
+    });
+    await Storage.set({
+      key: faculty,
+      value: selectedFaculty,
+    });
+    await Storage.set({
+      key: degree,
+      value: selectedDegreeType,
+    });
     const result = await ApiService.compare({
       institutionId1: selectedInstitution1,
       institutionId2: selectedInstitution2,

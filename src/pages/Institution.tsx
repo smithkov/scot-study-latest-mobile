@@ -27,22 +27,24 @@ import {
   IonChip,
   IonButtons,
   IonBackButton,
+  IonLoading,
 } from "@ionic/react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { checkmarkCircle } from "ionicons/icons";
 
 import SchoolAbout from "../widget/schoolAbout";
 import ApiService from "../services/api";
-const endpoint = `https://scotstudy.foodengo.com/api/`;
 
-interface CourseDetailProps
+interface InstitutionProps
   extends RouteComponentProps<{
     id: any;
-  }> {}
-const Institution: React.FC<CourseDetailProps> = ({ match }) => {
+  }> { }
+const Institution: React.FC<InstitutionProps> = ({ match }) => {
   const id = match.params.id;
-  const { authValues } = React.useContext(AuthContext);
+  
   const history = useHistory();
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
   const [institution, setInstitution] = useState({
     id: "",
     name: "",
@@ -54,12 +56,16 @@ const Institution: React.FC<CourseDetailProps> = ({ match }) => {
     DegreeType: { name: "" },
     Institution: { name: "" },
   });
- 
+
 
   useEffect(() => {
     (async () => {
-      const result = await ApiService.findInstitutionById({id});
+      
+      const result = await ApiService.findInstitutionById({ id });
+    
       setInstitution(result.data.data);
+      setHasLoaded(true)
+      setShowLoading(false)
     })();
   }, [id]);
   // const apply = async (e: any) => {
@@ -73,6 +79,12 @@ const Institution: React.FC<CourseDetailProps> = ({ match }) => {
   // };
   return (
     <IonPage>
+      <IonLoading
+        cssClass="my-custom-class"
+        isOpen={showLoading}
+        onDidDismiss={() => setShowLoading(false)}
+        message={"Please wait..."}
+      />
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -81,31 +93,31 @@ const Institution: React.FC<CourseDetailProps> = ({ match }) => {
           <IonTitle className="ion-text-center">{institution?.name}</IonTitle>
         </IonToolbar>
       </IonHeader>
-
-      <IonContent fullscreen>
+      {hasLoaded ? <IonContent fullscreen>
         <IonCard>
-          <IonImg src={institution.banner} />
+          <IonImg src={institution?.banner} />
           <IonCardHeader>
-          <IonCardTitle>{institution.name}</IonCardTitle>
+            <IonCardTitle>{institution?.name}</IonCardTitle>
             <IonCardSubtitle>{institution?.City.name}</IonCardSubtitle>
-           
-            
+
+
           </IonCardHeader>
 
           <IonCardContent>
-           
+
           </IonCardContent>
         </IonCard>
         <IonGrid>
           <IonRow>
             <IonCol className="ion-text-center">
-             <h4>{`About ${institution.name}`}</h4> 
-             <SchoolAbout id={id} />
+              <h4>{`About ${institution?.name}`}</h4>
+              <SchoolAbout id={id} />
             </IonCol>
           </IonRow>
         </IonGrid>
-        
-      </IonContent>
+
+      </IonContent> : ""}
+
     </IonPage>
   );
 };

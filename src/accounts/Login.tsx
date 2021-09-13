@@ -51,23 +51,27 @@ const Login: React.FC = (prLoadingPropsops) => {
   const [showLoading, setShowLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [hasLogin, setHasLogin] = useState(false);
-  const [logo, setLogo] = useState("/assets/light_logo.png");
+
+  let hasLoaded = false;
   useEffect(() => {
     //alert(JSON.stringify(authValues.authenticated));
-    (async () => {
-      const { value } = await Storage.get({ key: "isAuthenticated" });
-      if (value == "true") {
-        setHasLogin(true);
-      }
-    })();
+    // if (!hasLoaded) {
+    //   hasLoaded =true;
+    //   (async () => {
+    //     const { value } = await Storage.get({ key: "isAuthenticated" });
+    //     if (value == "true") {
+    //       setHasLogin(true);
+    //     }
+    //   })();
+    // }
     // ThemeDetection.isDarkModeEnabled().then((res: any) => {
     //   if (res.value) {
     //     setLogo("/assets/dark_logo.png");
     //   } else {
     //     setLogo("/assets/light_logo.png");
     //   }
-    //. });
-  }, []);
+  }, [1]);
+
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -92,7 +96,7 @@ const Login: React.FC = (prLoadingPropsops) => {
       password: password,
     })
       .then((result: any) => {
-        history.replace(Config.dashRoute());
+        history.replace("/dashboard/1");
       })
       .catch((error: any) => {
         setShowLoading(false);
@@ -100,9 +104,7 @@ const Login: React.FC = (prLoadingPropsops) => {
       });
     // if (result) history.replace(`/dashboard`);
   };
-  if (hasLogin) {
-    return <Redirect to={"/dashboard/9"} />;
-  }
+
   return (
     <IonPage>
       <IonHeader>
@@ -127,7 +129,10 @@ const Login: React.FC = (prLoadingPropsops) => {
             <IonCol></IonCol>
 
             <IonCol>
-              <IonImg style={{ height: 65, width: 200 }} src={logo} />
+              <IonImg
+                style={{ height: 65, width: 200 }}
+                src="/assets/light_logo.png"
+              />
             </IonCol>
             <IonCol></IonCol>
           </IonRow>

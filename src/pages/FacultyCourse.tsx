@@ -46,7 +46,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
     useState<boolean>(false);
   const facultyId = match.params.id;
   const initialOffset = 0;
-  const initialLimit = 15;
+  const initialLimit = 6;
   const history = useHistory();
   const [courses, setCourses] = useState([]);
   const [title, setTitle] = useState("");
@@ -92,11 +92,13 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
   const handleSearch = async (e: any) => {
     const value = e.target.value;
+    const newOffset = initialOffset;
+    setOffset(newOffset)
     setSearchText(value);
     const result = await ApiService.courseByParams({
       facultyId: facultyId,
       institutionId: selectedInstitution,
-      offset: offset,
+      offset: newOffset,
       limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: value,
@@ -145,11 +147,13 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
   }
   const handleOnChangeDegreeType = async (e: any) => {
     const value = e.detail.value;
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSelectedDegreeType(value);
     const result = await ApiService.courseByParams({
       facultyId: facultyId,
       institutionId: selectedInstitution,
-      offset: offset,
+      offset: newOffset,
       limit: initialLimit,
       degreeTypeId: value,
       search: searchText,
@@ -166,12 +170,13 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
   const handleOnChangeInstitution = async (e: any) => {
     const value = e.detail.value;
-
+    const newOffset = initialOffset;
+    setOffset(newOffset)
     setSelectedInstitution(value);
     const result = await ApiService.courseByParams({
       institutionId: value,
       facultyId: facultyId,
-      offset: offset,
+      offset: newOffset,
       limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: searchText,

@@ -31,6 +31,7 @@ import {
   useIonViewWillEnter,
   IonInfiniteScroll,
   IonInfiniteScrollContent,
+  IonText,
 } from "@ionic/react";
 import { checkmarkCircle, filterCircle, search } from "ionicons/icons";
 import ApiService from "../services/api";
@@ -43,7 +44,8 @@ import { off } from "process";
 const endpoint = `https://scotstudy.foodengo.com/api/`;
 
 const Course: React.FC = () => {
-  const initialOffset = 6;
+  const initialLimit = 6;
+  const initialOffset = 0;
   const [disableInfiniteScroll, setDisableInfiniteScroll] =
     useState<boolean>(false);
   const history = useHistory();
@@ -55,7 +57,7 @@ const Course: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showLoading, setShowLoading] = useState(true);
   const [loadType, setLoadType] = useState(LoadStatus.Loading);
-  const [offset, setOffset] = useState(0);
+  const [offset, setOffset] = useState(initialOffset);
   const [institutions, setInstitutions] = useState([]);
   const [degreeTypes, setDegreeTypes] = useState([]);
   const [faculties, setFaculties] = useState([]);
@@ -68,7 +70,7 @@ const Course: React.FC = () => {
         institutionId: selectedInstitution,
         facultyId: selectedFaculty,
         offset: offset,
-        limit: initialOffset,
+        limit: initialLimit,
         degreeTypeId: selectedDegreeType,
         search: searchText,
       });
@@ -94,13 +96,13 @@ const Course: React.FC = () => {
   });
 
   async function searchNext($event: CustomEvent<void>) {
-    let newOffset = offset + initialOffset;
+    let newOffset = offset + initialLimit;
     setOffset(newOffset);
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: selectedFaculty,
       offset: newOffset,
-      limit: initialOffset,
+      limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: searchText,
     });
@@ -125,7 +127,7 @@ const Course: React.FC = () => {
   //       institutionId: selectedInstitution,
   //       facultyId: selectedFaculty,
   //       offset: 1,
-  //       limit: initialOffset,
+  //       limit: initialLimit,
   //       degreeTypeId: selectedDegreeType,
   //       search: searchText,
   //     });
@@ -143,12 +145,14 @@ const Course: React.FC = () => {
   // }, []);
   const handleSearch = async (e: any) => {
     const value = e.target.value;
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSearchText(value);
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: selectedFaculty,
-      offset: offset,
-      limit: initialOffset,
+      offset: newOffset,
+      limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: value,
     });
@@ -171,12 +175,14 @@ const Course: React.FC = () => {
   };
   const handleOnChangeDegreeType = async (e: any) => {
     const value = e.detail.value;
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSelectedDegreeType(value);
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: selectedFaculty,
-      offset: offset,
-      limit: initialOffset,
+      offset:newOffset,
+      limit: initialLimit,
       degreeTypeId: value,
       search: searchText,
     });
@@ -191,13 +197,14 @@ const Course: React.FC = () => {
   };
   const handleOnChangeFaculty = async (e: any) => {
     const value = e.detail.value;
-
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSelectedFaculty(value);
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: value,
-      offset: offset,
-      limit: initialOffset,
+      offset: newOffset,
+      limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: searchText,
     });
@@ -213,13 +220,14 @@ const Course: React.FC = () => {
 
   const handleOnChangeInstitution = async (e: any) => {
     const value = e.detail.value;
-
+    const newOffset = initialOffset;
+    setOffset(newOffset);
     setSelectedInstitution(value);
     const result = await ApiService.allCoursesSearch({
       institutionId: value,
       facultyId: selectedFaculty,
-      offset: offset,
-      limit: initialOffset,
+      offset: newOffset,
+      limit: initialLimit,
       degreeTypeId: selectedDegreeType,
       search: searchText,
     });
@@ -286,6 +294,11 @@ const Course: React.FC = () => {
 
               <IonLabel>
                 <h2>{item.name}</h2>
+                <IonText>
+                  <h3>
+                    <strong>{item.Institution?.name}</strong>
+                  </h3>
+                </IonText>
                 <h3>{item.Faculty.name}</h3>
                 <p>{item.fee}</p>
                 {item.scholarshipAmount && (

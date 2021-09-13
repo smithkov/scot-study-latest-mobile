@@ -80,7 +80,7 @@ export const AuthProvider: React.FC = ({ children }) => {
       (async () => {
         await Storage.set({
           key: "loaded",
-          value: "true",
+          value: JSON.stringify(true),
         });
       })();
 
@@ -157,7 +157,6 @@ export const AuthProvider: React.FC = ({ children }) => {
             id: data.id,
             token: token,
             firstname: data.firstname,
-            isUser: true,
           },
         });
         resolve(true);
@@ -166,19 +165,13 @@ export const AuthProvider: React.FC = ({ children }) => {
       }
     });
   };
-  const logout = async (e: any) => {
-    await Storage.set({
-      key: "isAuthenticated",
-      value: "false",
-    });
+  const logout = async () => {
     await Storage.remove({ key: userKey });
-
     setAuthValues({
       authenticated: false,
       user: {},
     });
-
-    //return Promise.resolve(true);
+    return Promise.resolve(true);
   };
 
   let state = {
