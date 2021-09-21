@@ -98,13 +98,13 @@ const Compare: React.FC = () => {
       }
       setShowLoading(false);
 
-      const institutionResult = await ApiService.institutions();
+      const institutionResult = await ApiService.institutionsLighter();
       setInstitutions(institutionResult.data.data);
 
       const degreeTyeResult = await ApiService.degreeTypes();
       setDegreeTypes(degreeTyeResult.data.data);
 
-      const facultyResult = await ApiService.facultiesLight();
+      const facultyResult = await ApiService.facultiesSuperLight();
       setFaculties(facultyResult.data.data);
     })();
   }, []);

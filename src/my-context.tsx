@@ -10,31 +10,31 @@ export const AuthProvider: React.FC = ({ children }) => {
     hasLoadedOnce: false,
     user: {},
   });
-  useEffect(() => {
-    (async () => {
-      const { value } = await Storage.get({ key: userKey });
-      const user = JSON.parse(value!);
-      const loadedOnce = await Storage.get({ key: "loaded" });
+  // useEffect(() => {
+  //   (async () => {
+  //     // const { value } = await Storage.get({ key: userKey });
+  //     // const user = JSON.parse(value!);
+  //     // const loadedOnce = await Storage.get({ key: "loaded" });
 
-      if (user) {
-        setAuthValues({
-          authenticated: true,
-          hasLoadedOnce: JSON.stringify(loadedOnce.value),
-          user: {
-            email: user?.email,
-            id: user?.id,
-            //token: token,
-            firstname: user?.firstname,
-            isUser: user?.Role?.name == "User" ? true : false,
-          },
-        });
-      } else {
-        setAuthValues({
-          hasLoadedOnce: JSON.stringify(loadedOnce.value),
-        });
-      }
-    })();
-  }, []);
+  //     //if (user) {
+  //       setAuthValues({
+  //         authenticated: true,
+  //         hasLoadedOnce: false,
+  //         user: {
+  //           email: user?.email,
+  //           id: user?.id,
+  //           //token: token,
+  //           firstname: user?.firstname,
+  //           isUser: user?.Role?.name == "User" ? true : false,
+  //         },
+  //       });
+  //     // } else {
+  //     //   setAuthValues({
+  //     //     hasLoadedOnce: JSON.stringify(loadedOnce.value),
+  //     //   });
+  //     // }
+  //   })();
+  // }, []);
   const login = async ({
     user,
     password,

@@ -82,7 +82,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
       }
       setShowLoading(false);
 
-      const institutionResult = await ApiService.institutions();
+      const institutionResult = await ApiService.institutionsLighter();
       setInstitutions(institutionResult.data.data);
 
       const degreeTyeResult = await ApiService.degreeTypes();
@@ -93,7 +93,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
   const handleSearch = async (e: any) => {
     const value = e.target.value;
     const newOffset = initialOffset;
-    setOffset(newOffset)
+    setOffset(newOffset);
     setSearchText(value);
     const result = await ApiService.courseByParams({
       facultyId: facultyId,
@@ -171,7 +171,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
   const handleOnChangeInstitution = async (e: any) => {
     const value = e.detail.value;
     const newOffset = initialOffset;
-    setOffset(newOffset)
+    setOffset(newOffset);
     setSelectedInstitution(value);
     const result = await ApiService.courseByParams({
       institutionId: value,

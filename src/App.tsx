@@ -143,13 +143,13 @@ const appPages: AppPage[] = [
 
 const App: React.FC = () => {
   const { authValues } = React.useContext(AuthContext);
+
   return (
     <IonApp>
       {!authValues.authenticated ? (
         <IonReactRouter>
           <IonRouterOutlet>
             <Route component={Register} exact path="/register" />
-
             <Route component={Login} exact path="/login" />
             <Route component={Tour} exact path="/tour" />
             <Route component={Forgot} exact path="/forgot" />

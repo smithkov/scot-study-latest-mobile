@@ -132,4 +132,12 @@ export default class ApiService {
   static findUserDocuments(data: any) {
     return axios.post(`${this.endpoint}findUserDocuments`, data);
   }
+
+  static facultiesSuperLight() {
+    return axios.post(`${this.endpoint}facultiesSuperLight`);
+  }
+
+  static institutionsLighter() {
+    return axios.post(`${this.endpoint}institutionsLighter`);
+  }
 }
