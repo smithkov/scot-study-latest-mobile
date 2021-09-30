@@ -140,7 +140,7 @@ const appPages: AppPage[] = [
     icon: logOutOutline,
   },
 ];
-
+const tabColor = "#3880ff";
 const App: React.FC = () => {
   const { authValues } = React.useContext(AuthContext);
 
@@ -220,23 +220,20 @@ const App: React.FC = () => {
             </IonRouterOutlet>
             <IonTabBar slot="bottom">
               <IonTabButton tab="tab1" href={Config.dashRoute()}>
-                <FontAwesomeIcon color="blue" size="2x" icon="desktop" />
+                <FontAwesomeIcon style={{color:tabColor}} size="2x" icon="desktop" />
                 <IonLabel>Dashboard</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab2" href="/institutions">
-                <FontAwesomeIcon color="blue" size="2x" icon="school" />
+                <FontAwesomeIcon style={{color:tabColor}} size="2x" icon="school" />
                 <IonLabel>Institutions</IonLabel>
               </IonTabButton>
-              {/* <IonTabButton tab="tab3" href="/faculty">
-                <IonIcon icon={square} />
-                <IonLabel>Faculties</IonLabel>
-              </IonTabButton> */}
+              
               <IonTabButton tab="tab4" href="/courses">
-                <FontAwesomeIcon color="blue" size="2x" icon="graduation-cap" />
+                <FontAwesomeIcon style={{color:tabColor}} size="2x" icon="graduation-cap" />
                 <IonLabel>Courses</IonLabel>
               </IonTabButton>
               <IonTabButton tab="tab5" href="/compare">
-                <FontAwesomeIcon color="blue" size="2x" icon="balance-scale" />
+                <FontAwesomeIcon style={{color:tabColor}} size="2x" icon="balance-scale" />
                 <IonLabel>Compare</IonLabel>
               </IonTabButton>
             </IonTabBar>

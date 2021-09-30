@@ -123,7 +123,7 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
         <IonCard style={{ textAlign: "center" }} color="light">
           <IonGrid>
             <IonRow className="ion-align-items-center ion-margin">
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("36f19d62-ca16-4392-afc3-f6253d2da620")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/engineering.png" />
@@ -131,7 +131,7 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
                   Engineering
                 </h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("3ef55fdd-6c8e-419f-9196-6053794b4095")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/science.png" />
@@ -139,26 +139,26 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
                   Life Sciences
                 </h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("250d2d75-7e69-49fa-8234-1cd565f57376")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/business.png" />
                 <h6 style={{ textAlign: "center", fontSize: 11 }}>
-                  Business & Management
+                  Business Mgt
                 </h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 className="ion-align-self-center"
                 onClick={() => courses("48478e98-42a6-4f08-9e49-8317870bfb44")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/media.png" />
                 <h6 style={{ textAlign: "center", fontSize: 11 }}>
-                  Media & Design
+                  Media
                 </h6>
               </IonCol>
             </IonRow>
-            <IonRow className="ion-align-items-center ion-margin">
-              <IonCol
+            <IonRow  className="ion-align-items-center ion-margin">
+              <IonCol size="3"
                 onClick={() => courses("8d246951-4b16-44f6-8cfa-8bd736742825")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/computer.png" />
@@ -166,19 +166,19 @@ const Dashboard: React.FC<DashboardProps> = ({ match }) => {
                   Computer Science
                 </h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("4d9d1262-450a-4eb9-a6a4-cff838af42d1")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/medicine.png" />
                 <h6 style={{ textAlign: "center", fontSize: 11 }}>Medicine</h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("7fb12650-7615-4614-bbf2-797d885c7c40")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/nursing.png" />
                 <h6 style={{ textAlign: "center", fontSize: 11 }}>Nursing</h6>
               </IonCol>
-              <IonCol
+              <IonCol size="3"
                 onClick={() => courses("8d246951-4b16-44f6-8cfa-8bd736742825")}
               >
                 <IonImg style={imgStyle} src="/assets/icon/social.png" />

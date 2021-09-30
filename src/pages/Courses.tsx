@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LoadStatus } from "../utility/config";
+import { Storage } from "@capacitor/storage";
 import {
   IonSearchbar,
   IonContent,
@@ -62,17 +63,35 @@ const Course: React.FC = () => {
   const [degreeTypes, setDegreeTypes] = useState([]);
   const [faculties, setFaculties] = useState([]);
   let hasLoaded = false;
-
+  const faculty_k = "facultyFC"
+  const degree_k = "degreeFC"
+  const institution_k = "institutionFC"
+  const search_k = "searchFC"
   useIonViewWillEnter(async () => {
     if (!hasLoaded) {
+
+      const getSearch = await Storage.get({ key: search_k });
+      setSearchText(getSearch.value! || "");
+
+      const getSchool = await Storage.get({ key: institution_k });
+      setSelectedInstitution(getSchool.value! || "");
+
+      const getDegree = await Storage.get({ key: degree_k });
+      setSelectedDegreeType(getDegree.value! || "");
+
+      const getFaculty = await Storage.get({ key: faculty_k });
+      setSelectedFaculty(getFaculty.value! || "");
+      console.log(`school : ${getSchool} degree: ${getDegree} faculty: ${getFaculty}  search: ${getSearch}`)
+
+
       hasLoaded = true;
       const result = await ApiService.allCoursesSearch({
-        institutionId: selectedInstitution,
-        facultyId: selectedFaculty,
+        institutionId: getSchool.value || "",
+        facultyId: getFaculty.value || "",
         offset: offset,
         limit: initialLimit,
-        degreeTypeId: selectedDegreeType,
-        search: searchText,
+        degreeTypeId: getDegree.value || "",
+        search: getSearch.value || "",
       });
 
       let dataResult = result.data.data;
@@ -146,6 +165,10 @@ const Course: React.FC = () => {
   const handleSearch = async (e: any) => {
     const value = e.target.value;
     const newOffset = initialOffset;
+    await Storage.set({
+      key: search_k,
+      value: value,
+    });
     setOffset(newOffset);
     setSearchText(value);
     const result = await ApiService.allCoursesSearch({
@@ -178,6 +201,10 @@ const Course: React.FC = () => {
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSelectedDegreeType(value);
+    await Storage.set({
+      key: degree_k,
+      value: value,
+    });
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: selectedFaculty,
@@ -200,6 +227,10 @@ const Course: React.FC = () => {
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSelectedFaculty(value);
+    await Storage.set({
+      key: faculty_k,
+      value: value,
+    });
     const result = await ApiService.allCoursesSearch({
       institutionId: selectedInstitution,
       facultyId: value,
@@ -223,6 +254,10 @@ const Course: React.FC = () => {
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSelectedInstitution(value);
+    await Storage.set({
+      key: institution_k,
+      value: value,
+    });
     const result = await ApiService.allCoursesSearch({
       institutionId: value,
       facultyId: selectedFaculty,

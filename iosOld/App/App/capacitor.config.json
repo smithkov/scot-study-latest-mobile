@@ -1,0 +1,6 @@
+{
+	"appId": "com.scotstudymobile.app",
+	"appName": "Scot Study",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

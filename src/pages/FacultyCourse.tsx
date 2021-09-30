@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Storage } from "@capacitor/storage";
 import {
   IonContent,
   IonHeader,
@@ -27,6 +28,7 @@ import {
   IonLoading,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
+  IonText,
 } from "@ionic/react";
 import "./faculty.css";
 import { RouteComponentProps, useHistory } from "react-router-dom";
@@ -36,6 +38,9 @@ import { LoadStatus } from "../utility/config";
 import ApiService from "../services/api";
 import NoResult from "../widget/noResult";
 const endpoint = `https://scotstudy.foodengo.com/api/`;
+const degree_k = "degreeFF";
+const search_k ="searchFF";
+const institution_k = "schoolFF";
 
 interface FacultyCourseProps
   extends RouteComponentProps<{
@@ -62,12 +67,22 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
   useEffect(() => {
     (async () => {
+      const getSearch = await Storage.get({ key: search_k });
+      setSearchText(getSearch.value! || "");
+
+      const getDegree = await Storage.get({ key: degree_k });
+      setSelectedDegreeType(getDegree.value! || "");
+
+      const getInstitution = await Storage.get({ key: institution_k });
+      setSelectedInstitution(getInstitution.value! || "");
+
+
       const result = await ApiService.courseByParams({
-        institutionId: "",
+        institutionId: getInstitution.value || "",
         offset: offset,
         limit: initialLimit,
-        degreeTypeId: selectedDegreeType,
-        search: "",
+        degreeTypeId: getDegree.value || "",
+        search: getSearch.value || "",
         facultyId: facultyId,
       });
 
@@ -92,6 +107,10 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
   const handleSearch = async (e: any) => {
     const value = e.target.value;
+    await Storage.set({
+      key: institution_k,
+      value: value,
+    });
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSearchText(value);
@@ -147,6 +166,10 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
   }
   const handleOnChangeDegreeType = async (e: any) => {
     const value = e.detail.value;
+    await Storage.set({
+      key: degree_k,
+      value: value,
+    });
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSelectedDegreeType(value);
@@ -170,6 +193,10 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
   const handleOnChangeInstitution = async (e: any) => {
     const value = e.detail.value;
+    await Storage.set({
+      key: institution_k,
+      value: value,
+    });
     const newOffset = initialOffset;
     setOffset(newOffset);
     setSelectedInstitution(value);
@@ -214,6 +241,7 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
         onDidDismiss={() => setShowLoading(false)}
         message={"Please wait..."}
       />
+      
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
@@ -250,6 +278,11 @@ const FacultyCourse: React.FC<FacultyCourseProps> = ({ match }) => {
 
               <IonLabel>
                 <h2>{item.name}</h2>
+                <IonText>
+                  <h3>
+                    <strong>{item.Institution?.name}</strong>
+                  </h3>
+                </IonText>
                 <h3>{item.Faculty.name}</h3>
                 <p>{item.fee}</p>
                 {item.scholarshipAmount && (
