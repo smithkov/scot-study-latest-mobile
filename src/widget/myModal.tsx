@@ -15,6 +15,7 @@ import {
   IonModal,
   IonNote,
   IonSearchbar,
+  IonText,
   IonThumbnail,
   IonTitle,
   IonToolbar,
@@ -94,14 +95,19 @@ const MyModal: React.FC<{
                     props.handleSelectedCourse(item);
                   }}
                 >
-                  <IonAvatar slot="start">
+                  <IonThumbnail slot="start">
                     <IonImg
                       src={`${item.CoursePhoto && item.CoursePhoto.url}`}
                     />
-                  </IonAvatar>
+                  </IonThumbnail>
 
                   <IonLabel>
                     <h2>{item.name}</h2>
+                    <IonText>
+                      <h3>
+                        <strong>{item.Institution?.name}</strong>
+                      </h3>
+                    </IonText>
                     <h3>{item.Faculty.name}</h3>
                     <p>{item.fee}</p>
                     {item.scholarshipAmount && (

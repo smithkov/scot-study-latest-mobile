@@ -33,6 +33,7 @@ import {
   IonInfiniteScroll,
   IonInfiniteScrollContent,
   IonText,
+  IonAvatar,
 } from "@ionic/react";
 import { checkmarkCircle, filterCircle, search } from "ionicons/icons";
 import ApiService from "../services/api";
@@ -266,9 +267,9 @@ const Compare: React.FC = () => {
         <IonList>
           {courses.map((item: any) => (
             <IonItem onClick={() => courseDetail(item.id)}>
-              <IonThumbnail slot="start">
+              <IonAvatar slot="start">
                 <IonImg src={`${item.CoursePhoto?.url}`} />
-              </IonThumbnail>
+              </IonAvatar>
 
               <IonLabel>
                 <h2>{item.name}</h2>

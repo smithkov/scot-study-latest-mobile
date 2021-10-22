@@ -6,7 +6,7 @@ export default class Config {
     var d = new Date();
     var currentYear = d.getFullYear();
     const dates = [];
-    for (let i = 2000; i <= currentYear; i++) {
+    for (let i = 1975; i <= currentYear; i++) {
       dates.push(i);
     }
 

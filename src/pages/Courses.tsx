@@ -63,13 +63,12 @@ const Course: React.FC = () => {
   const [degreeTypes, setDegreeTypes] = useState([]);
   const [faculties, setFaculties] = useState([]);
   let hasLoaded = false;
-  const faculty_k = "facultyFC"
-  const degree_k = "degreeFC"
-  const institution_k = "institutionFC"
-  const search_k = "searchFC"
+  const faculty_k = "facultyFC";
+  const degree_k = "degreeFC";
+  const institution_k = "institutionFC";
+  const search_k = "searchFC";
   useIonViewWillEnter(async () => {
     if (!hasLoaded) {
-
       const getSearch = await Storage.get({ key: search_k });
       setSearchText(getSearch.value! || "");
 
@@ -81,8 +80,9 @@ const Course: React.FC = () => {
 
       const getFaculty = await Storage.get({ key: faculty_k });
       setSelectedFaculty(getFaculty.value! || "");
-      console.log(`school : ${getSchool} degree: ${getDegree} faculty: ${getFaculty}  search: ${getSearch}`)
-
+      console.log(
+        `school : ${getSchool} degree: ${getDegree} faculty: ${getFaculty}  search: ${getSearch}`
+      );
 
       hasLoaded = true;
       const result = await ApiService.allCoursesSearch({
